@@ -1,0 +1,4222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="description"
+  content="NezCap — Air quality insights, trends and health recommendations."
+>
+
+<title>NezCap — Air Insights</title>
+
+
+<style>
+
+/* ==================================================
+   VARIABLES
+================================================== */
+
+:root{
+
+  --navy:#07182b;
+  --navy2:#0c2946;
+
+  --blue:#08aaf3;
+  --blue2:#1688ff;
+
+  --text:#10213d;
+  --muted:#526783;
+
+  --card:#ffffff;
+  --bg:#eef5fb;
+
+  --line:#dbe6f1;
+
+  --green:#27c984;
+  --amber:#f5ae25;
+  --red:#ef5364;
+
+  --shadow:
+    0 18px 45px
+    rgba(17,48,82,.10);
+
+}
+
+
+/* ==================================================
+   GLOBAL
+================================================== */
+
+*{
+  box-sizing:border-box;
+}
+
+
+html{
+  scroll-behavior:smooth;
+}
+
+
+body{
+
+  margin:0;
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color:var(--text);
+
+  background:var(--bg);
+
+}
+
+
+button,
+select{
+  font:inherit;
+}
+
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+
+/* ==================================================
+   TOP HERO
+================================================== */
+
+.top{
+
+  min-height:390px;
+
+  color:#fff;
+
+  position:relative;
+
+  overflow:hidden;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      rgba(5,19,35,.92) 0%,
+      rgba(8,28,48,.78) 42%,
+      rgba(8,28,48,.30) 100%
+    ),
+
+    radial-gradient(
+      circle at 75% 25%,
+      rgba(33,143,218,.28),
+      transparent 32%
+    ),
+
+    linear-gradient(
+      135deg,
+      #071a2e,
+      #0c3556 55%,
+      #091b30
+    );
+
+}
+
+
+.top:after{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 65%,
+      rgba(4,18,32,.45)
+    );
+
+}
+
+
+/* ==================================================
+   NAVIGATION
+================================================== */
+
+.nav{
+
+  height:78px;
+
+  max-width:1180px;
+
+  margin:auto;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  position:relative;
+
+  z-index:3;
+
+  padding:0 22px;
+
+}
+
+
+.logo{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  font-size:24px;
+
+  font-weight:850;
+
+  letter-spacing:-.7px;
+
+}
+
+
+.logoMark{
+
+  font-size:42px;
+
+  font-weight:900;
+
+  font-style:italic;
+
+  line-height:.8;
+
+  color:#09a9f3;
+
+}
+
+
+.logo span:last-child{
+
+  color:#fff;
+
+}
+
+
+.logo .blue{
+
+  color:#08aaf3;
+
+}
+
+
+/* NAV LINKS */
+
+.links{
+
+  display:flex;
+
+  gap:34px;
+
+  align-items:center;
+
+}
+
+
+.links a{
+
+  font-size:14px;
+
+  color:#dce7f2;
+
+  padding:10px 0;
+
+  position:relative;
+
+  transition:.2s ease;
+
+}
+
+
+.links a:hover{
+
+  color:#09b5fa;
+
+}
+
+
+.links a.active{
+
+  color:#09b5fa;
+
+}
+
+
+.links a.active:after{
+
+  content:"";
+
+  position:absolute;
+
+  height:2px;
+
+  background:#08b8ff;
+
+  left:0;
+
+  right:0;
+
+  bottom:0;
+
+}
+
+
+/* ==================================================
+   NAV ACTIONS
+================================================== */
+
+.actions{
+
+  display:flex;
+
+  gap:14px;
+
+  align-items:center;
+
+}
+
+
+.location{
+
+  border:
+    1px solid
+    rgba(255,255,255,.18);
+
+  background:
+    rgba(7,20,34,.45);
+
+  color:#fff;
+
+  border-radius:25px;
+
+  padding:11px 16px;
+
+  min-width:165px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+}
+
+
+.location select{
+
+  background:transparent;
+
+  border:0;
+
+  color:#fff;
+
+  outline:0;
+
+  cursor:pointer;
+
+  width:100%;
+
+}
+
+
+.location option{
+
+  color:#111;
+
+}
+
+
+.cta{
+
+  border:0;
+
+  border-radius:25px;
+
+  padding:12px 22px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #248fff,
+      #08b8e9
+    );
+
+  color:#fff;
+
+  font-weight:750;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+
+}
+
+
+.cta:hover{
+
+  transform:translateY(-2px);
+
+}
+
+
+/* ==================================================
+   HERO CONTENT
+================================================== */
+
+.hero{
+
+  max-width:1180px;
+
+  margin:auto;
+
+  padding:
+    38px
+    22px
+    70px;
+
+  position:relative;
+
+  z-index:2;
+
+  min-height:310px;
+
+}
+
+
+.heroCopy{
+
+  max-width:560px;
+
+}
+
+
+.eyebrow{
+
+  font-size:12px;
+
+  letter-spacing:3px;
+
+  color:#bcd2e8;
+
+  margin-bottom:15px;
+
+}
+
+
+h1{
+
+  font-size:42px;
+
+  line-height:1.05;
+
+  margin:0 0 12px;
+
+  letter-spacing:-1.8px;
+
+}
+
+
+h1 span{
+
+  color:#08b5f7;
+
+}
+
+
+.hero p{
+
+  font-size:16px;
+
+  line-height:1.5;
+
+  color:#d6e4ef;
+
+  margin:
+    0 0 25px;
+
+  max-width:540px;
+
+}
+
+
+.heroControls{
+
+  display:flex;
+
+  gap:14px;
+
+  align-items:center;
+
+  flex-wrap:wrap;
+
+}
+
+
+.heroLocation{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  border:
+    1px solid
+    rgba(72,180,255,.65);
+
+  border-radius:24px;
+
+  padding:10px 15px;
+
+  background:
+    rgba(8,27,47,.48);
+
+}
+
+
+.heroLocation select{
+
+  border:0;
+
+  background:transparent;
+
+  color:#fff;
+
+  outline:0;
+
+}
+
+
+.heroLocation option{
+
+  color:#111;
+
+}
+
+
+.updated{
+
+  font-size:12px;
+
+  color:#bed0e0;
+
+}
+
+
+/* ==================================================
+   DASHBOARD
+================================================== */
+
+.dashboard{
+
+  max-width:1180px;
+
+  margin:-34px auto 0;
+
+  padding:0 22px;
+
+  position:relative;
+
+  z-index:5;
+
+}
+
+
+/* ==================================================
+   CURRENT AIR
+================================================== */
+
+.current{
+
+  background:
+    rgba(255,255,255,.96);
+
+  border:
+    1px solid
+    #e1ebf4;
+
+  border-radius:18px;
+
+  padding:20px;
+
+  box-shadow:var(--shadow);
+
+  display:grid;
+
+  grid-template-columns:
+    1.25fr
+    1.75fr;
+
+  gap:18px;
+
+}
+
+
+.aqiPanel{
+
+  border-right:
+    1px solid
+    var(--line);
+
+  padding:
+    2px
+    22px
+    4px
+    3px;
+
+  cursor:pointer;
+
+}
+
+
+.sectionTitle{
+
+  font-size:16px;
+
+  font-weight:800;
+
+  margin-bottom:12px;
+
+}
+
+
+.aqiRow{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:22px;
+
+}
+
+
+.gauge{
+
+  width:165px;
+
+  height:165px;
+
+  border-radius:50%;
+
+  display:grid;
+
+  place-items:center;
+
+  position:relative;
+
+  background:
+    conic-gradient(
+      var(--amber)
+      var(--gauge,52%),
+      #dce6ef 0
+    );
+
+  flex:none;
+
+}
+
+
+.gauge:before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:12px;
+
+  border-radius:50%;
+
+  background:#fff;
+
+}
+
+
+.gaugeText{
+
+  position:relative;
+
+  text-align:center;
+
+}
+
+
+.gaugeText strong{
+
+  font-size:52px;
+
+  line-height:1;
+
+  display:block;
+
+}
+
+
+.gaugeText small{
+
+  font-size:14px;
+
+  color:#65768d;
+
+}
+
+
+/* STATUS */
+
+.status h2{
+
+  font-size:25px;
+
+  margin:
+    0
+    0
+    7px;
+
+  color:var(--amber);
+
+}
+
+
+.status p{
+
+  font-size:14px;
+
+  line-height:1.45;
+
+  color:#56708f;
+
+  margin:
+    0
+    0
+    12px;
+
+}
+
+
+.tip{
+
+  background:#f3f7fb;
+
+  border:
+    1px solid
+    #e0eaf3;
+
+  border-radius:11px;
+
+  padding:10px 12px;
+
+  font-size:12px;
+
+  color:#37516f;
+
+}
+
+
+/* ==================================================
+   METRICS
+================================================== */
+
+.metrics{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:10px;
+
+}
+
+
+.metric{
+
+  background:#f7fafd;
+
+  border:
+    1px solid
+    #e6eef6;
+
+  border-radius:12px;
+
+  padding:14px 12px;
+
+}
+
+
+.metricLabel{
+
+  font-size:11px;
+
+  color:#66809e;
+
+}
+
+
+.metricValue{
+
+  font-size:19px;
+
+  font-weight:800;
+
+  margin-top:4px;
+
+}
+
+
+.metricUnit{
+
+  font-size:11px;
+
+  font-weight:500;
+
+  color:#6d8199;
+
+}
+
+
+/* ==================================================
+   COMPARISON
+================================================== */
+
+.compare{
+
+  margin-top:12px;
+
+  display:grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap:12px;
+
+}
+
+
+.smallCard{
+
+  border:
+    1px solid
+    #e4edf5;
+
+  border-radius:12px;
+
+  padding:13px;
+
+  cursor:pointer;
+
+}
+
+
+.smallTitle{
+
+  font-size:11px;
+
+  font-weight:800;
+
+}
+
+
+.delta{
+
+  font-size:20px;
+
+  font-weight:850;
+
+  color:var(--red);
+
+  margin-top:8px;
+
+}
+
+
+.smallText{
+
+  font-size:11px;
+
+  color:#607691;
+
+  line-height:1.35;
+
+}
+
+
+/* ==================================================
+   MAIN GRID
+================================================== */
+
+.mainGrid{
+
+  display:grid;
+
+  grid-template-columns:
+    1.25fr
+    1fr;
+
+  gap:14px;
+
+  margin-top:14px;
+
+}
+
+
+.card{
+
+  background:#fff;
+
+  border:
+    1px solid
+    #e1eaf3;
+
+  border-radius:17px;
+
+  padding:20px;
+
+  box-shadow:
+    0 8px 25px
+    rgba(23,53,84,.05);
+
+}
+
+
+.card h3{
+
+  font-size:16px;
+
+  margin:
+    0
+    0
+    5px;
+
+}
+
+
+.sub{
+
+  font-size:12px;
+
+  color:#647b96;
+
+  margin-bottom:15px;
+
+}
+
+
+/* ==================================================
+   CHART
+================================================== */
+
+.chart{
+
+  height:190px;
+
+  position:relative;
+
+  border-bottom:
+    1px solid
+    #ccd9e6;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 37px,
+      #e4edf5 38px
+    );
+
+}
+
+
+.svgChart{
+
+  width:100%;
+
+  height:100%;
+
+  overflow:visible;
+
+}
+
+
+.chartPoint{
+
+  fill:#fff;
+
+  stroke:#f3a91f;
+
+  stroke-width:3;
+
+}
+
+
+/* ==================================================
+   POLLUTANTS
+================================================== */
+
+.pollutants{
+
+  display:grid;
+
+  gap:11px;
+
+}
+
+
+.pollutant{
+
+  display:grid;
+
+  grid-template-columns:
+    70px
+    1fr
+    70px;
+
+  gap:10px;
+
+  align-items:center;
+
+  font-size:12px;
+
+}
+
+
+.bar{
+
+  height:9px;
+
+  background:#e5edf5;
+
+  border-radius:20px;
+
+  overflow:hidden;
+
+}
+
+
+.fill{
+
+  height:100%;
+
+  border-radius:20px;
+
+}
+
+
+.p1{
+  background:#ef5965;
+}
+
+
+.p2{
+  background:#f29c4b;
+}
+
+
+.p3{
+  background:#318ce4;
+}
+
+
+.p4{
+  background:#50a9e7;
+}
+
+
+.p5{
+  background:#55c994;
+}
+
+
+.p6{
+  background:#7752d5;
+}
+
+
+/* ==================================================
+   RECOMMENDATIONS
+================================================== */
+
+.recommendations{
+
+  margin-top:14px;
+
+}
+
+
+.recGrid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:12px;
+
+}
+
+
+.rec{
+
+  border:
+    1px solid
+    #e6eef5;
+
+  border-radius:14px;
+
+  padding:15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff,
+      #f7fbff
+    );
+
+}
+
+
+.icon{
+
+  width:42px;
+
+  height:42px;
+
+  border-radius:50%;
+
+  display:grid;
+
+  place-items:center;
+
+  background:#e5f5ff;
+
+  color:#159fe9;
+
+  font-size:20px;
+
+  margin-bottom:11px;
+
+}
+
+
+.rec b{
+
+  font-size:13px;
+
+  display:block;
+
+  margin-bottom:5px;
+
+}
+
+
+.rec span{
+
+  font-size:11px;
+
+  line-height:1.4;
+
+  color:#5f7590;
+
+}
+
+
+/* ==================================================
+   BANNER
+================================================== */
+
+.banner{
+
+  margin-top:14px;
+
+  min-height:190px;
+
+  border-radius:17px;
+
+  overflow:hidden;
+
+  position:relative;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      rgba(9,48,82,.94),
+      rgba(19,104,159,.63)
+    ),
+
+    linear-gradient(
+      135deg,
+      #6ca9cf,
+      #b9d8ea
+    );
+
+  color:#fff;
+
+  padding:36px;
+
+}
+
+
+.banner:after{
+
+  content:"";
+
+  position:absolute;
+
+  right:-10%;
+
+  bottom:-65%;
+
+  width:65%;
+
+  height:150%;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255,255,255,.32),
+      transparent 62%
+    );
+
+  transform:rotate(-8deg);
+
+}
+
+
+.banner .eyebrow{
+
+  color:#cce9fb;
+
+}
+
+
+.banner h2{
+
+  font-size:31px;
+
+  line-height:1.05;
+
+  margin:
+    0
+    0
+    8px;
+
+}
+
+
+.banner h2 span{
+
+  color:#09b5f7;
+
+}
+
+
+.banner p{
+
+  margin:0;
+
+  font-size:13px;
+
+  color:#e1f1fb;
+
+}
+
+
+.banner .whiteBtn{
+
+  position:absolute;
+
+  right:35px;
+
+  top:78px;
+
+  z-index:2;
+
+  background:#fff;
+
+  color:#18304b;
+
+  border:0;
+
+  border-radius:25px;
+
+  padding:13px 22px;
+
+  font-weight:800;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+
+}
+
+
+.banner .whiteBtn:hover{
+
+  transform:translateY(-2px);
+
+}
+
+
+/* ==================================================
+   FOOTER
+================================================== */
+
+footer{
+
+  background:#061526;
+
+  color:#dbe7f2;
+
+  margin-top:0;
+
+  padding:
+    42px
+    22px
+    18px;
+
+}
+
+
+.footerInner{
+
+  max-width:1180px;
+
+  margin:auto;
+
+}
+
+
+.footerGrid{
+
+  display:grid;
+
+  grid-template-columns:
+    1.4fr
+    .8fr
+    .8fr
+    1.6fr;
+
+  gap:35px;
+
+}
+
+
+.footerLogo{
+
+  font-size:22px;
+
+  font-weight:850;
+
+}
+
+
+.footerLogo .mark{
+
+  color:#08aaf3;
+
+  font-size:36px;
+
+  font-style:italic;
+
+}
+
+
+.footer p{
+
+  font-size:12px;
+
+  line-height:1.6;
+
+  color:#a9bed0;
+
+  max-width:250px;
+
+}
+
+
+.footer h4{
+
+  margin:
+    4px
+    0
+    15px;
+
+  font-size:13px;
+
+}
+
+
+.footer a{
+
+  display:block;
+
+  color:#a9bed0;
+
+  font-size:12px;
+
+  margin:10px 0;
+
+  transition:.2s ease;
+
+}
+
+
+.footer a:hover{
+
+  color:#08aaf3;
+
+}
+
+
+.partners{
+
+  display:flex;
+
+  gap:12px;
+
+  align-items:center;
+
+  flex-wrap:wrap;
+
+}
+
+
+.partner{
+
+  min-width:90px;
+
+  height:45px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.14);
+
+  border-radius:8px;
+
+  padding:7px 10px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:10px;
+
+  font-weight:800;
+
+  color:#e8f2fa;
+
+  text-align:center;
+
+}
+
+
+.social{
+
+  display:flex;
+
+  gap:10px;
+
+  margin-top:17px;
+
+}
+
+
+.social span{
+
+  width:28px;
+
+  height:28px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.2);
+
+  border-radius:50%;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:11px;
+
+}
+
+
+.footerBottom{
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.12);
+
+  margin-top:28px;
+
+  padding-top:17px;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  font-size:11px;
+
+  color:#8298ad;
+
+}
+
+
+/* ==================================================
+   MODAL
+================================================== */
+
+.modal{
+
+  position:fixed;
+
+  inset:0;
+
+  background:
+    rgba(2,12,23,.65);
+
+  display:none;
+
+  align-items:center;
+
+  justify-content:center;
+
+  z-index:50;
+
+  padding:20px;
+
+}
+
+
+.modal.show{
+
+  display:flex;
+
+}
+
+
+.modalBox{
+
+  background:#fff;
+
+  border-radius:18px;
+
+  max-width:520px;
+
+  width:100%;
+
+  padding:24px;
+
+  box-shadow:
+    0 30px 80px
+    rgba(0,0,0,.25);
+
+}
+
+
+.modalTop{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+}
+
+
+.close{
+
+  border:0;
+
+  background:#eef4f8;
+
+  border-radius:50%;
+
+  width:34px;
+
+  height:34px;
+
+  cursor:pointer;
+
+}
+
+
+.modalBox h2{
+
+  margin:0;
+
+}
+
+
+.modalAQI{
+
+  font-size:48px;
+
+  font-weight:900;
+
+  margin:
+    20px
+    0
+    4px;
+
+}
+
+
+.modalStatus{
+
+  font-weight:850;
+
+  margin-bottom:12px;
+
+}
+
+
+.modalBox p{
+
+  font-size:13px;
+
+  color:#5b7089;
+
+  line-height:1.5;
+
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media(max-width:900px){
+
+  .links{
+
+    gap:16px;
+
+  }
+
+
+  .current{
+
+    grid-template-columns:1fr;
+
+  }
+
+
+  .aqiPanel{
+
+    border-right:0;
+
+    border-bottom:
+      1px solid
+      var(--line);
+
+    padding:
+      0
+      0
+      18px;
+
+  }
+
+
+  .mainGrid{
+
+    grid-template-columns:1fr;
+
+  }
+
+
+  .recGrid{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+
+  .footerGrid{
+
+    grid-template-columns:
+      1fr
+      1fr;
+
+  }
+
+}
+
+
+@media(max-width:650px){
+
+  .nav{
+
+    height:auto;
+
+    padding-top:15px;
+
+    flex-wrap:wrap;
+
+    gap:13px;
+
+  }
+
+
+  .links{
+
+    order:3;
+
+    width:100%;
+
+    justify-content:space-between;
+
+    gap:8px;
+
+  }
+
+
+  .links a{
+
+    font-size:12px;
+
+  }
+
+
+  .actions{
+
+    margin-left:auto;
+
+  }
+
+
+  .location{
+
+    min-width:135px;
+
+  }
+
+
+  .cta{
+
+    padding:
+      11px
+      15px;
+
+  }
+
+
+  .hero{
+
+    padding-top:25px;
+
+  }
+
+
+  .hero h1{
+
+    font-size:34px;
+
+  }
+
+
+  .current{
+
+    padding:15px;
+
+  }
+
+
+  .aqiRow{
+
+    align-items:flex-start;
+
+    flex-direction:column;
+
+  }
+
+
+  .metrics{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+
+  .compare{
+
+    grid-template-columns:1fr;
+
+  }
+
+
+  .recGrid{
+
+    grid-template-columns:1fr;
+
+  }
+
+
+  .banner{
+
+    padding:27px;
+
+    min-height:230px;
+
+  }
+
+
+  .banner h2{
+
+    font-size:27px;
+
+  }
+
+
+  .banner .whiteBtn{
+
+    position:static;
+
+    margin-top:20px;
+
+  }
+
+
+  .footerGrid{
+
+    grid-template-columns:1fr;
+
+  }
+
+
+  .footerBottom{
+
+    flex-direction:column;
+
+    gap:8px;
+
+  }
+
+
+  .dashboard{
+
+    padding:
+      0
+      12px;
+
+  }
+
+
+  .hero{
+
+    padding-left:16px;
+
+    padding-right:16px;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     HEADER / HERO
+================================================== -->
+
+<section class="top">
+
+
+  <!-- NAVIGATION -->
+
+  <nav class="nav">
+
+
+    <!-- LOGO -->
+
+    <a
+      class="logo"
+      href="index.html"
+      aria-label="NezCap Home"
+    >
+
+      <span class="logoMark">
+        N
+      </span>
+
+      <span>
+        NEZ<span class="blue">CAP</span>
+      </span>
+
+    </a>
+
+
+    <!-- PAGE NAVIGATION -->
+
+    <div class="links">
+
+
+      <a href="index.html">
+        Air
+      </a>
+
+
+      <a
+        class="active"
+        href="insight.html"
+      >
+        Insights
+      </a>
+
+
+      <a href="shop.html">
+        Shop
+      </a>
+
+
+      <a href="about.html">
+        About
+      </a>
+
+
+    </div>
+
+
+    <!-- CITY + CTA -->
+
+    <div class="actions">
+
+
+      <div class="location">
+
+        ⌖
+
+        <select
+          id="navCity"
+          aria-label="Select city"
+        >
+        </select>
+
+      </div>
+
+
+      <button
+        class="cta"
+        onclick="goToShop()"
+      >
+        Get NezCap
+      </button>
+
+
+    </div>
+
+
+  </nav>
+
+
+
+  <!-- HERO -->
+
+  <div
+    class="hero"
+    id="insights"
+  >
+
+
+    <div class="heroCopy">
+
+
+      <div class="eyebrow">
+        AIR INSIGHTS
+      </div>
+
+
+      <h1>
+
+        Understand Today
+        <br>
+
+        <span>
+          Breathe Better
+        </span>
+
+        Tomorrow.
+
+      </h1>
+
+
+      <p>
+
+        Get detailed air quality insights,
+        trends and health recommendations
+        for a cleaner, healthier you.
+
+      </p>
+
+
+      <div class="heroControls">
+
+
+        <div class="heroLocation">
+
+          ⌖
+
+          <select
+            id="heroCity"
+            aria-label="Select city"
+          >
+          </select>
+
+        </div>
+
+
+        <span
+          class="updated"
+          id="updated"
+        >
+          Demo data • Updated just now ↻
+        </span>
+
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     DASHBOARD
+================================================== -->
+
+<main class="dashboard">
+
+
+  <!-- ==================================================
+       CURRENT AIR QUALITY
+  ================================================== -->
+
+  <section class="current">
+
+
+    <!-- AQI PANEL -->
+
+    <div
+      class="aqiPanel"
+      title="Double-click for details"
+    >
+
+
+      <div class="sectionTitle">
+        Current Air Quality
+      </div>
+
+
+      <div class="aqiRow">
+
+
+        <div
+          class="gauge"
+          id="gauge"
+          style="--gauge:21%"
+        >
+
+
+          <div class="gaugeText">
+
+
+            <strong id="aqi">
+              42
+            </strong>
+
+
+            <small>
+              AQI
+            </small>
+
+
+          </div>
+
+
+        </div>
+
+
+
+        <div class="status">
+
+
+          <h2 id="status">
+            Good
+          </h2>
+
+
+          <p id="statusText">
+
+            Air quality is satisfactory
+            and suitable for outdoor activities.
+
+          </p>
+
+
+          <div class="tip">
+
+            ⓘ
+
+            <span id="tipText">
+
+              Current air quality poses
+              minimal risk to most people.
+
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- RIGHT SIDE -->
+
+    <div>
+
+
+      <!-- METRICS -->
+
+      <div class="metrics">
+
+
+        <div class="metric">
+
+          <div class="metricLabel">
+            PM2.5
+          </div>
+
+
+          <div class="metricValue">
+
+            <span id="pm25">
+              22
+            </span>
+
+
+            <span class="metricUnit">
+              µg/m³
+            </span>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="metric">
+
+          <div class="metricLabel">
+            PM10
+          </div>
+
+
+          <div class="metricValue">
+
+            <span id="pm10">
+              35
+            </span>
+
+
+            <span class="metricUnit">
+              µg/m³
+            </span>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="metric">
+
+          <div class="metricLabel">
+            Temperature
+          </div>
+
+
+          <div class="metricValue">
+
+            <span id="temp">
+              28
+            </span>
+
+
+            <span class="metricUnit">
+              °C
+            </span>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="metric">
+
+          <div class="metricLabel">
+            Humidity
+          </div>
+
+
+          <div class="metricValue">
+
+            <span id="humidity">
+              65
+            </span>
+
+
+            <span class="metricUnit">
+              %
+            </span>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- COMPARISON -->
+
+      <div class="compare">
+
+
+        <div
+          class="smallCard"
+          title="Double-click for details"
+        >
+
+          <div class="smallTitle">
+            Current Reading
+          </div>
+
+
+          <div
+            class="delta"
+            id="delta"
+            style="color:#27c984"
+          >
+            Live
+          </div>
+
+
+          <div class="smallText">
+
+            Current demo reading
+            for the selected city.
+
+          </div>
+
+        </div>
+
+
+
+        <div
+          class="smallCard"
+          title="Double-click for details"
+        >
+
+          <div class="smallTitle">
+            Exposure Risk
+          </div>
+
+
+          <div
+            class="delta"
+            id="risk"
+            style="color:#27c984"
+          >
+            Low
+          </div>
+
+
+          <div
+            class="smallText"
+            id="riskText"
+          >
+
+            Current air quality poses
+            minimal risk to most people.
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ==================================================
+       TREND + POLLUTANTS
+  ================================================== -->
+
+  <section class="mainGrid">
+
+
+    <!-- TREND -->
+
+    <div class="card">
+
+
+      <h3>
+        AQI Trend
+      </h3>
+
+
+      <div
+        class="sub"
+        id="trendCity"
+      >
+        Cyberjaya • Demo 24-Hour Trend
+      </div>
+
+
+      <div class="chart">
+
+
+        <svg
+          class="svgChart"
+          viewBox="0 0 620 190"
+          preserveAspectRatio="none"
+        >
+
+
+          <polyline
+            id="trendLine"
+            fill="none"
+            stroke="#27c984"
+            stroke-width="4"
+            points=""
+          />
+
+
+          <circle
+            id="trendPoint"
+            class="chartPoint"
+            cx="620"
+            cy="100"
+            r="6"
+          />
+
+
+        </svg>
+
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- POLLUTANTS -->
+
+    <div class="card">
+
+
+      <h3>
+        Air Quality Components
+      </h3>
+
+
+      <div class="sub">
+        Major pollutants in the air
+      </div>
+
+
+      <div class="pollutants">
+
+
+        <!-- PM2.5 -->
+
+        <div class="pollutant">
+
+          <span>
+            PM2.5
+          </span>
+
+
+          <div class="bar">
+
+            <div
+              class="fill p1"
+              id="b25"
+              style="width:31%"
+            ></div>
+
+          </div>
+
+
+          <span id="v25">
+            22 µg/m³
+          </span>
+
+        </div>
+
+
+
+        <!-- PM10 -->
+
+        <div class="pollutant">
+
+          <span>
+            PM10
+          </span>
+
+
+          <div class="bar">
+
+            <div
+              class="fill p2"
+              id="b10"
+              style="width:35%"
+            ></div>
+
+          </div>
+
+
+          <span id="v10">
+            35 µg/m³
+          </span>
+
+        </div>
+
+
+
+        <!-- NO2 -->
+
+        <div class="pollutant">
+
+          <span>
+            NO₂
+          </span>
+
+
+          <div class="bar">
+
+            <div
+              class="fill p3"
+              id="bno2"
+              style="width:18%"
+            ></div>
+
+          </div>
+
+
+          <span id="vno2">
+            18 µg/m³
+          </span>
+
+        </div>
+
+
+
+        <!-- SO2 -->
+
+        <div class="pollutant">
+
+          <span>
+            SO₂
+          </span>
+
+
+          <div class="bar">
+
+            <div
+              class="fill p4"
+              id="bso2"
+              style="width:7%"
+            ></div>
+
+          </div>
+
+
+          <span id="vso2">
+            7 µg/m³
+          </span>
+
+        </div>
+
+
+
+        <!-- O3 -->
+
+        <div class="pollutant">
+
+          <span>
+            O₃
+          </span>
+
+
+          <div class="bar">
+
+            <div
+              class="fill p5"
+              id="bo3"
+              style="width:36%"
+            ></div>
+
+          </div>
+
+
+          <span id="vo3">
+            54 µg/m³
+          </span>
+
+        </div>
+
+
+
+        <!-- CO -->
+
+        <div class="pollutant">
+
+          <span>
+            CO
+          </span>
+
+
+          <div class="bar">
+
+            <div
+              class="fill p6"
+              id="bco"
+              style="width:8%"
+            ></div>
+
+          </div>
+
+
+          <span id="vco">
+            420 µg/m³
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ==================================================
+       HEALTH RECOMMENDATIONS
+  ================================================== -->
+
+  <section class="card recommendations">
+
+
+    <h3>
+      Health Recommendations
+    </h3>
+
+
+    <div class="sub">
+      Simple steps for a healthier, safer you.
+    </div>
+
+
+    <div class="recGrid">
+
+
+      <div class="rec">
+
+
+        <div class="icon">
+          ▣
+        </div>
+
+
+        <b>
+          Wear Protection
+        </b>
+
+
+        <span id="wearProtection">
+
+          Air quality is good.
+          NezCap can provide additional
+          personal protection.
+
+        </span>
+
+
+      </div>
+
+
+
+      <div class="rec">
+
+
+        <div class="icon">
+          ↗
+        </div>
+
+
+        <b>
+          Limit Outdoor Activity
+        </b>
+
+
+        <span id="outdoorActivity">
+
+          Normal outdoor activities are
+          generally suitable.
+
+        </span>
+
+
+      </div>
+
+
+
+      <div class="rec">
+
+
+        <div class="icon">
+          ⌂
+        </div>
+
+
+        <b>
+          Keep Indoor Air Clean
+        </b>
+
+
+        <span>
+
+          Use air purifiers and keep
+          windows closed during high
+          pollution periods.
+
+        </span>
+
+
+      </div>
+
+
+
+      <div class="rec">
+
+
+        <div class="icon">
+          ♡
+        </div>
+
+
+        <b>
+          Look After Your Health
+        </b>
+
+
+        <span>
+
+          Monitor for respiratory symptoms
+          and seek medical advice if needed.
+
+        </span>
+
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ==================================================
+       SHOP CTA
+  ================================================== -->
+
+  <section class="banner">
+
+
+    <div class="eyebrow">
+      CLEANER AIR. BRIGHTER DAYS.
+    </div>
+
+
+    <h2>
+
+      Knowledge Today
+      <br>
+
+      A
+      <span>
+        Healthier Tomorrow.
+      </span>
+
+    </h2>
+
+
+    <p>
+
+      Make informed choices.
+      Take control of your air.
+
+    </p>
+
+
+    <button
+      class="whiteBtn"
+      onclick="goToShop()"
+    >
+
+      Get NezCap →
+
+    </button>
+
+
+  </section>
+
+
+</main>
+
+
+
+<!-- ==================================================
+     FOOTER
+================================================== -->
+
+<footer>
+
+
+  <div class="footerInner">
+
+
+    <div class="footerGrid">
+
+
+      <!-- BRAND -->
+
+      <div>
+
+
+        <a
+          class="footerLogo"
+          href="index.html"
+        >
+
+          <span class="mark">
+            N
+          </span>
+
+          NEZCAP
+
+        </a>
+
+
+        <p>
+
+          Cap the Pollution.
+          Breathe Better.
+
+          <br><br>
+
+          A cleaner, healthier tomorrow
+          starts with awareness today.
+
+        </p>
+
+
+        <div class="social">
+
+          <span>f</span>
+
+          <span>◎</span>
+
+          <span>♪</span>
+
+          <span>▶</span>
+
+          <span>in</span>
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- QUICK LINKS -->
+
+      <div>
+
+
+        <h4>
+          Quick Links
+        </h4>
+
+
+        <a href="index.html">
+          Air
+        </a>
+
+
+        <a href="insight.html">
+          Insights
+        </a>
+
+
+        <a href="shop.html">
+          Shop
+        </a>
+
+
+        <a href="about.html">
+          About
+        </a>
+
+
+      </div>
+
+
+
+      <!-- SUPPORT -->
+
+      <div>
+
+
+        <h4>
+          Support
+        </h4>
+
+
+        <a href="#">
+          Contact Us
+        </a>
+
+
+        <a href="#">
+          FAQ
+        </a>
+
+
+        <a href="#">
+          Shipping & Returns
+        </a>
+
+
+        <a href="#">
+          User Guide
+        </a>
+
+
+      </div>
+
+
+
+      <!-- PARTNERS -->
+
+      <div>
+
+
+        <h4>
+          Our Partners
+        </h4>
+
+
+        <div class="partners">
+
+
+          <div class="partner">
+            MMU
+          </div>
+
+
+          <div class="partner">
+            MaGIC
+          </div>
+
+
+          <div class="partner">
+
+            UNIVERSITY OF
+            <br>
+            CYBERJAYA
+
+          </div>
+
+
+          <div class="partner">
+
+            MINISTRY OF
+            <br>
+            HEALTH MALAYSIA
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- FOOTER BOTTOM -->
+
+    <div class="footerBottom">
+
+
+      <span>
+        © 2026 NezCap.
+        All rights reserved.
+      </span>
+
+
+      <span>
+
+        Privacy Policy
+        &nbsp; | &nbsp;
+
+        Terms of Service
+        &nbsp; | &nbsp;
+
+        Cookie Policy
+
+      </span>
+
+
+    </div>
+
+
+  </div>
+
+
+</footer>
+
+
+
+<!-- ==================================================
+     MODAL
+================================================== -->
+
+<div
+  class="modal"
+  id="modal"
+>
+
+
+  <div class="modalBox">
+
+
+    <div class="modalTop">
+
+
+      <h2 id="modalCity">
+        Air Quality
+      </h2>
+
+
+      <button
+        class="close"
+        onclick="closeModal()"
+      >
+        ×
+      </button>
+
+
+    </div>
+
+
+    <div
+      class="modalAQI"
+      id="modalAQI"
+    >
+      42 AQI
+    </div>
+
+
+    <div
+      class="modalStatus"
+      id="modalStatus"
+    >
+      Good
+    </div>
+
+
+    <p id="modalText">
+
+      Air quality is satisfactory
+      and suitable for outdoor activities.
+
+    </p>
+
+
+    <br>
+
+
+    <button
+      class="cta"
+      onclick="closeModal()"
+    >
+      Close
+    </button>
+
+
+  </div>
+
+
+</div>
+
+
+
+<!-- ==================================================
+     JAVASCRIPT
+================================================== -->
+
+<script>
+
+
+/* ==================================================
+   DEMO CITY DATA
+
+   These are DEMO values for the MVP.
+   They are NOT live AQI readings.
+================================================== */
+
+const cities = {
+
+
+  "Cyberjaya": {
+
+    aqi:42,
+
+    pm25:22,
+
+    pm10:35,
+
+    temp:28,
+
+    humidity:65,
+
+    status:"Good",
+
+    color:"#27c984",
+
+    risk:"Low",
+
+    riskText:
+      "Current air quality poses minimal risk to most people.",
+
+    tip:
+      "Air quality is satisfactory and suitable for most outdoor activities.",
+
+    trend:[
+      32,35,38,36,40,44,
+      42,39,41,40,42
+    ],
+
+    no2:18,
+
+    so2:7,
+
+    o3:54,
+
+    co:420
+
+  },
+
+
+  "Putrajaya": {
+
+    aqi:58,
+
+    pm25:29,
+
+    pm10:43,
+
+    temp:29,
+
+    humidity:68,
+
+    status:"Moderate",
+
+    color:"#f5ae25",
+
+    risk:"Moderate",
+
+    riskText:
+      "Sensitive individuals may want to reduce prolonged outdoor exposure.",
+
+    tip:
+      "Sensitive groups should consider reducing prolonged outdoor exposure.",
+
+    trend:[
+      48,50,53,56,59,62,
+      58,55,57,60,58
+    ],
+
+    no2:25,
+
+    so2:10,
+
+    o3:62,
+
+    co:510
+
+  },
+
+
+  "Kuala Lumpur": {
+
+    aqi:78,
+
+    pm25:39,
+
+    pm10:58,
+
+    temp:30,
+
+    humidity:72,
+
+    status:"Moderate",
+
+    color:"#f5ae25",
+
+    risk:"Moderate",
+
+    riskText:
+      "People with respiratory conditions should take extra care.",
+
+    tip:
+      "Sensitive groups should consider reducing prolonged outdoor exposure.",
+
+    trend:[
+      52,55,61,68,75,82,
+      79,73,70,76,78
+    ],
+
+    no2:32,
+
+    so2:12,
+
+    o3:68,
+
+    co:800
+
+  },
+
+
+  "Shah Alam": {
+
+    aqi:49,
+
+    pm25:24,
+
+    pm10:38,
+
+    temp:29,
+
+    humidity:70,
+
+    status:"Good",
+
+    color:"#27c984",
+
+    risk:"Low",
+
+    riskText:
+      "Air quality is generally suitable for normal activities.",
+
+    tip:
+      "Air quality is satisfactory for most people.",
+
+    trend:[
+      46,44,47,50,48,51,
+      49,46,47,50,49
+    ],
+
+    no2:19,
+
+    so2:8,
+
+    o3:49,
+
+    co:390
+
+  },
+
+
+  "Petaling Jaya": {
+
+    aqi:64,
+
+    pm25:32,
+
+    pm10:47,
+
+    temp:30,
+
+    humidity:74,
+
+    status:"Moderate",
+
+    color:"#f5ae25",
+
+    risk:"Moderate",
+
+    riskText:
+      "Consider reducing prolonged outdoor exposure.",
+
+    tip:
+      "Sensitive individuals may experience discomfort during prolonged exposure.",
+
+    trend:[
+      52,55,58,61,64,67,
+      65,62,60,63,64
+    ],
+
+    no2:28,
+
+    so2:11,
+
+    o3:61,
+
+    co:620
+
+  },
+
+
+  "Johor Bahru": {
+
+    aqi:36,
+
+    pm25:18,
+
+    pm10:29,
+
+    temp:31,
+
+    humidity:77,
+
+    status:"Good",
+
+    color:"#27c984",
+
+    risk:"Low",
+
+    riskText:
+      "Air quality is satisfactory for outdoor activities.",
+
+    tip:
+      "Current conditions present low exposure risk for most people.",
+
+    trend:[
+      40,38,36,35,37,34,
+      36,35,37,36,36
+    ],
+
+    no2:16,
+
+    so2:6,
+
+    o3:45,
+
+    co:350
+
+  },
+
+
+  "Penang": {
+
+    aqi:67,
+
+    pm25:34,
+
+    pm10:51,
+
+    temp:29,
+
+    humidity:79,
+
+    status:"Moderate",
+
+    color:"#f5ae25",
+
+    risk:"Moderate",
+
+    riskText:
+      "Sensitive groups may experience discomfort outdoors.",
+
+    tip:
+      "Sensitive individuals should consider shorter outdoor exposure.",
+
+    trend:[
+      56,59,61,64,67,70,
+      68,65,63,66,67
+    ],
+
+    no2:29,
+
+    so2:13,
+
+    o3:64,
+
+    co:690
+
+  },
+
+
+  "Ipoh": {
+
+    aqi:28,
+
+    pm25:14,
+
+    pm10:22,
+
+    temp:28,
+
+    humidity:76,
+
+    status:"Good",
+
+    color:"#27c984",
+
+    risk:"Low",
+
+    riskText:
+      "Air quality is satisfactory for most people.",
+
+    tip:
+      "Current conditions present low exposure risk.",
+
+    trend:[
+      31,29,27,30,28,26,
+      29,27,28,29,28
+    ],
+
+    no2:12,
+
+    so2:5,
+
+    o3:39,
+
+    co:280
+
+  },
+
+
+  "Malacca City": {
+
+    aqi:88,
+
+    pm25:44,
+
+    pm10:65,
+
+    temp:30,
+
+    humidity:75,
+
+    status:"Unhealthy for Sensitive Groups",
+
+    color:"#ef8d37",
+
+    risk:"Elevated",
+
+    riskText:
+      "Sensitive groups should reduce prolonged or heavy outdoor activity.",
+
+    tip:
+      "Sensitive individuals should reduce prolonged outdoor exposure.",
+
+    trend:[
+      72,76,80,84,88,92,
+      89,86,87,90,88
+    ],
+
+    no2:39,
+
+    so2:15,
+
+    o3:72,
+
+    co:920
+
+  },
+
+
+  "Kota Kinabalu": {
+
+    aqi:96,
+
+    pm25:48,
+
+    pm10:72,
+
+    temp:29,
+
+    humidity:80,
+
+    status:"Unhealthy for Sensitive Groups",
+
+    color:"#ef8d37",
+
+    risk:"Elevated",
+
+    riskText:
+      "Sensitive groups should consider reducing prolonged outdoor exposure.",
+
+    tip:
+      "Sensitive groups should reduce prolonged outdoor exposure.",
+
+    trend:[
+      78,82,86,91,95,99,
+      96,93,90,94,96
+    ],
+
+    no2:42,
+
+    so2:16,
+
+    o3:78,
+
+    co:980
+
+  }
+
+};
+
+
+
+/* ==================================================
+   CITY SELECTORS
+================================================== */
+
+const navCity =
+  document.getElementById(
+    "navCity"
+  );
+
+
+const heroCity =
+  document.getElementById(
+    "heroCity"
+  );
+
+
+
+/* ==================================================
+   ADD CITIES TO SELECTORS
+================================================== */
+
+Object.keys(cities).forEach(
+  city => {
+
+    navCity.add(
+      new Option(
+        city,
+        city
+      )
+    );
+
+
+    heroCity.add(
+      new Option(
+        city,
+        city
+      )
+    );
+
+  }
+);
+
+
+
+/* ==================================================
+   REMEMBER SELECTED CITY
+
+   Shared with index.html.
+================================================== */
+
+const savedCity =
+  localStorage.getItem(
+    "nezcapCity"
+  );
+
+
+const defaultCity =
+  savedCity &&
+  cities[savedCity]
+    ? savedCity
+    : "Cyberjaya";
+
+
+navCity.value =
+  defaultCity;
+
+
+heroCity.value =
+  defaultCity;
+
+
+
+/* ==================================================
+   NAV CITY CHANGE
+================================================== */
+
+navCity.addEventListener(
+  "change",
+  () => {
+
+    const city =
+      navCity.value;
+
+
+    heroCity.value =
+      city;
+
+
+    localStorage.setItem(
+      "nezcapCity",
+      city
+    );
+
+
+    updateDashboard(
+      cities[city],
+      city
+    );
+
+  }
+);
+
+
+
+/* ==================================================
+   HERO CITY CHANGE
+================================================== */
+
+heroCity.addEventListener(
+  "change",
+  () => {
+
+    const city =
+      heroCity.value;
+
+
+    navCity.value =
+      city;
+
+
+    localStorage.setItem(
+      "nezcapCity",
+      city
+    );
+
+
+    updateDashboard(
+      cities[city],
+      city
+    );
+
+  }
+);
+
+
+
+/* ==================================================
+   UPDATE DASHBOARD
+================================================== */
+
+function updateDashboard(
+  data,
+  city
+){
+
+
+  /* AQI */
+
+  document.getElementById(
+    "aqi"
+  ).textContent =
+    data.aqi;
+
+
+
+  /* STATUS */
+
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+
+  status.textContent =
+    data.status;
+
+
+  status.style.color =
+    data.color;
+
+
+
+  /* STATUS TEXT */
+
+  document.getElementById(
+    "statusText"
+  ).textContent =
+    data.tip;
+
+
+
+  /* TIP */
+
+  document.getElementById(
+    "tipText"
+  ).textContent =
+    data.riskText;
+
+
+
+  /* PM2.5 */
+
+  document.getElementById(
+    "pm25"
+  ).textContent =
+    data.pm25;
+
+
+
+  /* PM10 */
+
+  document.getElementById(
+    "pm10"
+  ).textContent =
+    data.pm10;
+
+
+
+  /* TEMPERATURE */
+
+  document.getElementById(
+    "temp"
+  ).textContent =
+    data.temp;
+
+
+
+  /* HUMIDITY */
+
+  document.getElementById(
+    "humidity"
+  ).textContent =
+    data.humidity;
+
+
+
+  /* RISK */
+
+  const risk =
+    document.getElementById(
+      "risk"
+    );
+
+
+  risk.textContent =
+    data.risk;
+
+
+  risk.style.color =
+    data.color;
+
+
+
+  document.getElementById(
+    "riskText"
+  ).textContent =
+    data.riskText;
+
+
+
+  /* CURRENT READING */
+
+  document.getElementById(
+    "delta"
+  ).textContent =
+    "Demo";
+
+
+
+  /* UPDATED */
+
+  document.getElementById(
+    "updated"
+  ).textContent =
+    "Demo data • Updated just now ↻";
+
+
+
+  /* TREND TITLE */
+
+  document.getElementById(
+    "trendCity"
+  ).textContent =
+    city +
+    " • Demo 24-Hour Trend";
+
+
+
+  /* ==================================================
+     AQI GAUGE
+  ================================================== */
+
+  const gaugePercentage =
+    Math.min(
+      data.aqi / 200 * 100,
+      100
+    );
+
+
+  const gauge =
+    document.getElementById(
+      "gauge"
+    );
+
+
+  gauge.style.setProperty(
+    "--gauge",
+    gaugePercentage + "%"
+  );
+
+
+  gauge.style.background =
+    `conic-gradient(
+      ${data.color}
+      ${gaugePercentage}%,
+      #dce6ef 0
+    )`;
+
+
+
+  /* ==================================================
+     POLLUTANT BARS
+  ================================================== */
+
+  updatePollutant(
+    "b25",
+    "v25",
+    data.pm25,
+    "µg/m³",
+    70
+  );
+
+
+  updatePollutant(
+    "b10",
+    "v10",
+    data.pm10,
+    "µg/m³",
+    100
+  );
+
+
+  updatePollutant(
+    "bno2",
+    "vno2",
+    data.no2,
+    "µg/m³",
+    100
+  );
+
+
+  updatePollutant(
+    "bso2",
+    "vso2",
+    data.so2,
+    "µg/m³",
+    100
+  );
+
+
+  updatePollutant(
+    "bo3",
+    "vo3",
+    data.o3,
+    "µg/m³",
+    150
+  );
+
+
+  updatePollutant(
+    "bco",
+    "vco",
+    data.co,
+    "µg/m³",
+    5000
+  );
+
+
+
+  /* ==================================================
+     TREND
+  ================================================== */
+
+  drawTrend(
+    data.trend,
+    data.color
+  );
+
+
+
+  /* ==================================================
+     HEALTH RECOMMENDATIONS
+  ================================================== */
+
+  const wearProtection =
+    document.getElementById(
+      "wearProtection"
+    );
+
+
+  const outdoorActivity =
+    document.getElementById(
+      "outdoorActivity"
+    );
+
+
+  if(data.aqi <= 50){
+
+    wearProtection.textContent =
+      "Air quality is good. NezCap can provide additional personal protection.";
+
+
+    outdoorActivity.textContent =
+      "Normal outdoor activities are generally suitable.";
+
+  }
+
+  else if(data.aqi <= 100){
+
+    wearProtection.textContent =
+      "Consider using NezCap during prolonged outdoor exposure.";
+
+
+    outdoorActivity.textContent =
+      "Sensitive individuals should consider reducing prolonged outdoor activity.";
+
+  }
+
+  else{
+
+    wearProtection.textContent =
+      "Consider using NezCap when spending time outdoors.";
+
+
+    outdoorActivity.textContent =
+      "Reduce prolonged outdoor activities and take protective measures.";
+
+  }
+
+}
+
+
+
+/* ==================================================
+   UPDATE POLLUTANT
+================================================== */
+
+function updatePollutant(
+  barId,
+  valueId,
+  value,
+  unit,
+  maximum
+){
+
+  const numericValue =
+    Number(value) || 0;
+
+
+  const percentage =
+    Math.min(
+      numericValue /
+      maximum *
+      100,
+      100
+    );
+
+
+  document.getElementById(
+    barId
+  ).style.width =
+    percentage + "%";
+
+
+  document.getElementById(
+    valueId
+  ).textContent =
+    numericValue +
+    " " +
+    unit;
+
+}
+
+
+
+/* ==================================================
+   DRAW DEMO TREND
+================================================== */
+
+function drawTrend(
+  values,
+  color
+){
+
+  const width =
+    620;
+
+
+  const height =
+    190;
+
+
+  const min =
+    Math.min(...values) - 5;
+
+
+  const max =
+    Math.max(...values) + 5;
+
+
+  const points =
+    values
+      .map(
+        (value,index) => {
+
+          const x =
+            index *
+            (
+              width /
+              (values.length - 1)
+            );
+
+
+          const y =
+            height -
+            (
+              (
+                value - min
+              )
+              /
+              (
+                max - min
+              )
+            )
+            *
+            145
+            -
+            20;
+
+
+          return `${x},${y}`;
+
+        }
+      )
+      .join(" ");
+
+
+  const trendLine =
+    document.getElementById(
+      "trendLine"
+    );
+
+
+  trendLine.setAttribute(
+    "points",
+    points
+  );
+
+
+  trendLine.setAttribute(
+    "stroke",
+    color
+  );
+
+
+  /* Last point */
+
+  const lastValue =
+    values[
+      values.length - 1
+    ];
+
+
+  const lastY =
+    height -
+    (
+      (
+        lastValue - min
+      )
+      /
+      (
+        max - min
+      )
+    )
+    *
+    145
+    -
+    20;
+
+
+  const trendPoint =
+    document.getElementById(
+      "trendPoint"
+    );
+
+
+  trendPoint.setAttribute(
+    "cy",
+    lastY
+  );
+
+
+  trendPoint.setAttribute(
+    "stroke",
+    color
+  );
+
+}
+
+
+
+/* ==================================================
+   GO TO SHOP
+================================================== */
+
+function goToShop(){
+
+  window.location.href =
+    "shop.html";
+
+}
+
+
+
+/* ==================================================
+   GO TO AIR
+================================================== */
+
+function goToAir(){
+
+  window.location.href =
+    "index.html";
+
+}
+
+
+
+/* ==================================================
+   MODAL
+================================================== */
+
+function openModal(){
+
+  const city =
+    heroCity.value;
+
+
+  const data =
+    cities[city];
+
+
+  document.getElementById(
+    "modalCity"
+  ).textContent =
+    city +
+    ", Malaysia";
+
+
+  document.getElementById(
+    "modalAQI"
+  ).textContent =
+    data.aqi +
+    " AQI";
+
+
+  document.getElementById(
+    "modalStatus"
+  ).textContent =
+    data.status +
+    " • " +
+    data.risk +
+    " exposure risk";
+
+
+  document.getElementById(
+    "modalStatus"
+  ).style.color =
+    data.color;
+
+
+  document.getElementById(
+    "modalText"
+  ).textContent =
+    data.riskText;
+
+
+  document.getElementById(
+    "modal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+
+/* ==================================================
+   CLOSE MODAL
+================================================== */
+
+function closeModal(){
+
+  document.getElementById(
+    "modal"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+
+/* ==================================================
+   OPEN DETAILS ON DOUBLE CLICK
+================================================== */
+
+document.querySelector(
+  ".aqiPanel"
+).addEventListener(
+  "dblclick",
+  openModal
+);
+
+
+document.querySelectorAll(
+  ".smallCard"
+).forEach(
+  card => {
+
+    card.addEventListener(
+      "dblclick",
+      openModal
+    );
+
+  }
+);
+
+
+
+/* ==================================================
+   CLOSE MODAL BY CLICKING OUTSIDE
+================================================== */
+
+document.getElementById(
+  "modal"
+).addEventListener(
+  "click",
+  event => {
+
+    if(
+      event.target.id ===
+      "modal"
+    ){
+
+      closeModal();
+
+    }
+
+  }
+);
+
+
+
+/* ==================================================
+   INITIAL LOAD
+================================================== */
+
+updateDashboard(
+  cities[defaultCity],
+  defaultCity
+);
+
+</script>
+
+
+</body>
+
+</html>

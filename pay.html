@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Payment Confirmed | NezCap</title>
+
+<!--
+  NezCap Payment Confirmation
+  --------------------------------
+  This page reads the order/customer information saved by checkout.html
+  under "nezcapPaymentData".
+
+  Download options:
+  - PNG: captures the receipt card as an image.
+  - PDF: creates a PDF from the receipt card.
+  - If the PDF library cannot load, the browser print dialog is used
+    so the customer can choose "Save as PDF".
+-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+:root{
+  --navy:#071321;
+  --navy2:#0d2035;
+  --blue:#0ea5ff;
+  --cyan:#16c8ff;
+  --green:#18c784;
+  --green-soft:#eafbf4;
+  --text:#10233d;
+  --muted:#65758b;
+  --border:#e2e9f0;
+  --soft:#f5f9fd;
+  --white:#fff;
+  --shadow:0 20px 60px rgba(7,19,33,.09);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  background:#f5f8fc;
+  color:var(--text);
+  min-height:100vh;
+}
+
+.topbar{
+  height:88px;
+  background:var(--navy);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6%;
+  color:#fff;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+
+.logo-mark{
+  font-style:italic;
+  font-size:43px;
+  line-height:1;
+  color:var(--blue);
+}
+
+.back-shop{
+  color:#d9e4ef;
+  text-decoration:none;
+  font-weight:700;
+  transition:.2s;
+}
+
+.back-shop:hover{
+  color:#fff;
+}
+
+.page{
+  width:min(1120px,92%);
+  margin:0 auto;
+  padding:65px 0 80px;
+}
+
+.success{
+  text-align:center;
+  margin-bottom:38px;
+}
+
+.success-icon{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:var(--green);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+  font-weight:900;
+  margin:0 auto 20px;
+  box-shadow:0 15px 35px rgba(24,199,132,.25);
+}
+
+.eyebrow{
+  color:var(--blue);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:4px;
+  margin-bottom:13px;
+}
+
+.success h1{
+  font-size:clamp(38px,6vw,64px);
+  letter-spacing:-3px;
+  line-height:1;
+  margin-bottom:14px;
+}
+
+.success p{
+  color:var(--muted);
+  font-size:17px;
+}
+
+.demo-label{
+  display:inline-flex;
+  margin-top:18px;
+  padding:8px 14px;
+  border-radius:20px;
+  background:#eaf4ff;
+  color:#187cc0;
+  font-size:11px;
+  font-weight:800;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 330px;
+  gap:25px;
+  align-items:start;
+}
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:25px;
+  box-shadow:var(--shadow);
+}
+
+.receipt{
+  padding:35px;
+}
+
+.receipt-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:25px;
+  padding-bottom:25px;
+  border-bottom:1px dashed #d6e0ea;
+}
+
+.receipt-brand{
+  font-size:25px;
+  font-weight:900;
+}
+
+.receipt-brand span{
+  color:var(--blue);
+}
+
+.receipt-title{
+  text-align:right;
+}
+
+.receipt-title h2{
+  font-size:23px;
+  margin-bottom:7px;
+}
+
+.receipt-title p{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+  padding:27px 0;
+  border-bottom:1px dashed #d6e0ea;
+}
+
+.info-block h3{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1.4px;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+
+.info-block p{
+  font-size:14px;
+  line-height:1.65;
+}
+
+.info-block strong{
+  font-size:15px;
+}
+
+.items{
+  padding:27px 0;
+  border-bottom:1px dashed #d6e0ea;
+}
+
+.items-head,
+.item-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 70px 105px 105px;
+  gap:12px;
+  align-items:center;
+}
+
+.items-head{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  padding-bottom:12px;
+}
+
+.item-row{
+  padding:14px 0;
+  border-top:1px solid #eef2f6;
+}
+
+.product-cell{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-width:0;
+}
+
+.product-image{
+  width:58px;
+  height:58px;
+  object-fit:contain;
+  background:#f6f9fc;
+  border-radius:12px;
+  border:1px solid #edf1f5;
+  flex:none;
+}
+
+.product-name{
+  font-size:14px;
+  font-weight:800;
+}
+
+.product-unit{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:4px;
+}
+
+.item-number,
+.item-price,
+.item-total{
+  font-size:13px;
+  text-align:right;
+}
+
+.item-total{
+  font-weight:800;
+}
+
+.totals{
+  padding-top:24px;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+
+.total-line{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.total-line.final{
+  color:var(--text);
+  font-size:22px;
+  font-weight:900;
+  padding-top:15px;
+  margin-top:4px;
+  border-top:1px solid var(--border);
+}
+
+.receipt-footer{
+  margin-top:27px;
+  padding-top:20px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  text-align:center;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.side{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.side-card{
+  padding:25px;
+}
+
+.side-card h3{
+  font-size:18px;
+  margin-bottom:18px;
+}
+
+.status-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:12px 0;
+  border-bottom:1px solid #edf1f5;
+  font-size:13px;
+}
+
+.status-row:last-child{
+  border-bottom:0;
+}
+
+.status-row span:first-child{
+  color:var(--muted);
+}
+
+.status-row strong{
+  text-align:right;
+}
+
+.paid{
+  color:var(--green);
+}
+
+.actions{
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+
+.action-btn{
+  width:100%;
+  min-height:52px;
+  border:0;
+  border-radius:16px;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+}
+
+.action-btn.primary{
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  color:#fff;
+  box-shadow:0 13px 30px rgba(14,165,255,.22);
+}
+
+.action-btn.secondary{
+  background:#edf6ff;
+  color:#087fc8;
+  border:1px solid #d4eaff;
+}
+
+.action-btn.outline{
+  background:#fff;
+  color:var(--text);
+  border:1px solid var(--border);
+}
+
+.action-btn:hover{
+  transform:translateY(-1px);
+}
+
+.delivery-box{
+  background:var(--green-soft);
+  border:1px solid #ccefe0;
+  border-radius:17px;
+  padding:17px;
+  margin-top:17px;
+}
+
+.delivery-box .label{
+  color:#4f7e6d;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.delivery-box strong{
+  display:block;
+  font-size:15px;
+  margin-bottom:4px;
+}
+
+.delivery-box p{
+  color:#5d766d;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.no-order{
+  text-align:center;
+  padding:80px 25px;
+}
+
+.no-order h1{
+  font-size:36px;
+  margin-bottom:12px;
+}
+
+.no-order p{
+  color:var(--muted);
+  margin-bottom:25px;
+}
+
+@media(max-width:900px){
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .side{
+    order:-1;
+  }
+}
+
+@media(max-width:650px){
+  .topbar{
+    height:74px;
+    padding:0 5%;
+  }
+
+  .logo{
+    font-size:21px;
+  }
+
+  .logo-mark{
+    font-size:34px;
+  }
+
+  .back-shop{
+    font-size:13px;
+  }
+
+  .page{
+    padding:42px 0 55px;
+  }
+
+  .receipt{
+    padding:22px;
+  }
+
+  .receipt-head{
+    flex-direction:column;
+  }
+
+  .receipt-title{
+    text-align:left;
+  }
+
+  .info-grid{
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+
+  .items{
+    overflow-x:auto;
+  }
+
+  .items-head,
+  .item-row{
+    min-width:610px;
+  }
+
+  .side-card{
+    padding:21px;
+  }
+}
+
+/* Print / PDF */
+@media print{
+  body{
+    background:#fff;
+  }
+
+  .topbar,
+  .success,
+  .side,
+  .demo-label{
+    display:none !important;
+  }
+
+  .page{
+    width:100%;
+    padding:0;
+  }
+
+  .layout{
+    display:block;
+  }
+
+  .receipt{
+    box-shadow:none;
+    border:0;
+    border-radius:0;
+  }
+
+  .card{
+    box-shadow:none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="logo">
+    <div class="logo-mark">N</div>
+    NEZ<span style="color:#16c8ff;">CAP</span>
+  </div>
+
+  <a href="shop.html" class="back-shop">
+    ← Back to Shop
+  </a>
+</header>
+
+
+<main class="page">
+
+  <section class="success">
+
+    <div class="success-icon">✓</div>
+
+    <div class="eyebrow">
+      PAYMENT CONFIRMED
+    </div>
+
+    <h1>Thank you for your order.</h1>
+
+    <p>
+      Your NezCap order has been received successfully.
+      Your receipt is ready below.
+    </p>
+
+    <div class="demo-label">
+      DEMO PAYMENT CONFIRMATION
+    </div>
+
+  </section>
+
+
+  <div id="noOrder" class="card no-order" style="display:none;">
+
+    <h1>No order found</h1>
+
+    <p>
+      We could not find a checkout order on this device.
+    </p>
+
+    <a href="shop.html" class="action-btn primary"
+       style="max-width:260px;margin:auto;">
+      Return to Shop
+    </a>
+
+  </div>
+
+
+  <div id="confirmation" class="layout">
+
+
+    <!-- =================================================
+         RECEIPT
+         ================================================= -->
+
+    <section id="receipt" class="card receipt">
+
+      <div class="receipt-head">
+
+        <div>
+
+          <div class="receipt-brand">
+            NEZ<span>CAP</span>
+          </div>
+
+          <p style="color:#65758b;font-size:11px;margin-top:6px;">
+            Personal Air Protection
+          </p>
+
+        </div>
+
+
+        <div class="receipt-title">
+
+          <h2>Payment Receipt</h2>
+
+          <p id="receiptNumber">
+            Order #
+          </p>
+
+          <p id="receiptDate">
+            —
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- CUSTOMER / PAYMENT -->
+
+      <div class="info-grid">
+
+        <div class="info-block">
+
+          <h3>Customer</h3>
+
+          <p id="customerDetails">
+            —
+          </p>
+
+        </div>
+
+
+        <div class="info-block">
+
+          <h3>Payment</h3>
+
+          <p>
+            <strong id="paymentMethod">
+              —
+            </strong>
+            <br>
+            Payment status:
+            <strong class="paid">
+              Successful
+            </strong>
+          </p>
+
+        </div>
+
+
+        <div class="info-block">
+
+          <h3>Delivery Address</h3>
+
+          <p id="deliveryDetails">
+            —
+          </p>
+
+        </div>
+
+
+        <div class="info-block">
+
+          <h3>Expected Delivery</h3>
+
+          <p id="deliveryDetailsReceipt">
+            —
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- PRODUCTS -->
+
+      <div class="items">
+
+        <div class="items-head">
+
+          <div>Product</div>
+          <div style="text-align:right;">Qty</div>
+          <div style="text-align:right;">Unit</div>
+          <div style="text-align:right;">Total</div>
+
+        </div>
+
+        <div id="receiptItems"></div>
+
+      </div>
+
+
+      <!-- TOTALS -->
+
+      <div class="totals">
+
+        <div class="total-line">
+
+          <span>Subtotal</span>
+
+          <strong id="subtotal">
+            RM0.00
+          </strong>
+
+        </div>
+
+
+        <div class="total-line">
+
+          <span>Delivery</span>
+
+          <strong id="delivery">
+            Free
+          </strong>
+
+        </div>
+
+
+        <div class="total-line final">
+
+          <span>Total Paid</span>
+
+          <strong id="total">
+            RM0.00
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="receipt-footer">
+
+        Thank you for choosing NezCap.<br>
+
+        Please keep this receipt for your records.
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ORDER / DOWNLOAD SIDE
+         ================================================= -->
+
+    <aside class="side">
+
+
+      <div class="card side-card">
+
+        <h3>Order Summary</h3>
+
+        <div class="status-row">
+
+          <span>Order number</span>
+
+          <strong id="orderNumberSide">
+            —
+          </strong>
+
+        </div>
+
+
+        <div class="status-row">
+
+          <span>Status</span>
+
+          <strong class="paid">
+            Payment Successful
+          </strong>
+
+        </div>
+
+
+        <div class="status-row">
+
+          <span>Receipt email</span>
+
+          <strong id="emailStatus" class="paid">
+            —
+          </strong>
+
+        </div>
+
+
+        <div class="status-row">
+
+          <span>Items</span>
+
+          <strong id="itemCount">
+            0
+          </strong>
+
+        </div>
+
+
+        <div class="status-row">
+
+          <span>Total paid</span>
+
+          <strong id="totalSide">
+            RM0.00
+          </strong>
+
+        </div>
+
+
+        <div class="delivery-box">
+
+          <div class="label">
+            Expected Delivery
+          </div>
+
+          <strong id="deliverySide">
+            —
+          </strong>
+
+          <p>
+            Your order is expected during the
+            delivery window shown above.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="card side-card">
+
+        <h3>Receipt Email</h3>
+
+        <p
+          id="emailConfirmation"
+          style="
+            color:#65758b;
+            font-size:12px;
+            line-height:1.6;
+            margin-bottom:18px;
+          "
+        >
+          —
+        </p>
+
+        <h3>Receipt Options</h3>
+
+        <div class="actions">
+
+          <button
+            class="action-btn primary"
+            onclick="downloadPNG()"
+          >
+            Download Receipt PNG ↓
+          </button>
+
+
+          <button
+            class="action-btn secondary"
+            onclick="downloadPDF()"
+          >
+            Download Receipt PDF ↓
+          </button>
+
+
+          <button
+            class="action-btn outline"
+            onclick="printReceipt()"
+          >
+            Print Receipt
+          </button>
+
+
+          <a
+            href="index.html"
+            class="action-btn outline"
+          >
+            Back to Air
+          </a>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   PAYMENT CONFIRMATION DATA
+   ===================================================== */
+
+let paymentData = null;
+
+
+/* =====================================================
+   HELPERS
+   ===================================================== */
+
+function money(value){
+
+  return "RM" +
+    Number(value || 0).toFixed(2);
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function formatDate(date){
+
+  return date.toLocaleDateString(
+    "en-MY",
+    {
+      day:"numeric",
+      month:"long",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+function makeOrderNumber(){
+
+  const existing =
+    localStorage.getItem(
+      "nezcapOrderNumber"
+    );
+
+  if(existing){
+
+    return existing;
+
+  }
+
+  const now = new Date();
+
+  const random =
+    Math.floor(
+      1000 +
+      Math.random() * 9000
+    );
+
+  const order =
+    "NZC-" +
+    now.getFullYear() +
+    String(
+      now.getMonth() + 1
+    ).padStart(2,"0") +
+    String(
+      now.getDate()
+    ).padStart(2,"0") +
+    "-" +
+    random;
+
+  localStorage.setItem(
+    "nezcapOrderNumber",
+    order
+  );
+
+  return order;
+
+}
+
+
+/* =====================================================
+   EXPECTED DELIVERY
+   Demo: 3 days after order, 10:00 AM – 6:00 PM
+   ===================================================== */
+
+function getExpectedDelivery(){
+
+  const date =
+    paymentData &&
+    paymentData.createdAt
+      ? new Date(paymentData.createdAt)
+      : new Date();
+
+  date.setDate(
+    date.getDate() + 3
+  );
+
+  return {
+    date: formatDate(date),
+    time: "10:00 AM – 6:00 PM"
+  };
+
+}
+
+
+/* =====================================================
+   RENDER CONFIRMATION
+   ===================================================== */
+
+function renderConfirmation(){
+
+  const saved =
+    localStorage.getItem(
+      "nezcapPaymentData"
+    );
+
+
+  if(!saved){
+
+    document.getElementById(
+      "confirmation"
+    ).style.display = "none";
+
+    document.getElementById(
+      "noOrder"
+    ).style.display = "block";
+
+    document.querySelector(
+      ".success"
+    ).style.display = "none";
+
+    return;
+
+  }
+
+
+  try{
+
+    paymentData =
+      JSON.parse(saved);
+
+  }catch(error){
+
+    document.getElementById(
+      "confirmation"
+    ).style.display = "none";
+
+    document.getElementById(
+      "noOrder"
+    ).style.display = "block";
+
+    document.querySelector(
+      ".success"
+    ).style.display = "none";
+
+    return;
+
+  }
+
+
+  const customer =
+    paymentData.customer || {};
+
+  const items =
+    Array.isArray(paymentData.items)
+      ? paymentData.items
+      : [];
+
+
+  const orderNumber =
+    makeOrderNumber();
+
+
+  const orderDate =
+    paymentData.createdAt
+      ? new Date(paymentData.createdAt)
+      : new Date();
+
+
+  const delivery =
+    getExpectedDelivery();
+
+
+  const subtotal =
+    Number(paymentData.subtotal || 0);
+
+
+  const total =
+    Number(
+      paymentData.total ??
+      subtotal
+    );
+
+
+  /* RECEIPT HEADER */
+
+  document.getElementById(
+    "receiptNumber"
+  ).textContent =
+    "Order #" + orderNumber;
+
+
+  document.getElementById(
+    "receiptDate"
+  ).textContent =
+    formatDate(orderDate);
+
+
+  /* CUSTOMER */
+
+  document.getElementById(
+    "customerDetails"
+  ).innerHTML = `
+
+    <strong>
+      ${escapeHTML(customer.firstName)}
+      ${escapeHTML(customer.lastName)}
+    </strong>
+
+    <br>
+
+    ${escapeHTML(customer.email)}
+
+    <br>
+
+    ${escapeHTML(customer.phone)}
+
+  `;
+
+
+  /* PAYMENT */
+
+  let method =
+    paymentData.paymentMethod ||
+    "Not specified";
+
+
+  if(
+    method.toLowerCase() ===
+    "tng"
+  ){
+
+    method =
+      "Touch ’n Go";
+
+  }
+
+  else if(
+    method.toLowerCase() ===
+    "card"
+  ){
+
+    method =
+      "Card";
+
+  }
+
+
+  document.getElementById(
+    "paymentMethod"
+  ).textContent =
+    method;
+
+
+  /* RECEIPT EMAIL */
+
+  const customerEmail =
+    customer.email || "";
+
+  const emailStatus =
+    document.getElementById(
+      "emailStatus"
+    );
+
+  const emailConfirmation =
+    document.getElementById(
+      "emailConfirmation"
+    );
+
+  if (customerEmail) {
+
+    if (emailStatus) {
+
+      emailStatus.textContent =
+        "Ready";
+
+    }
+
+    if (emailConfirmation) {
+
+      emailConfirmation.innerHTML =
+        `Receipt prepared for <strong>${escapeHTML(customerEmail)}</strong>.
+         Automatic email delivery can be connected through the backend/email service.`;
+
+    }
+
+  }
+
+
+  /* DELIVERY ADDRESS */
+
+  document.getElementById(
+    "deliveryDetails"
+  ).innerHTML = `
+
+    ${escapeHTML(customer.address)}
+
+    <br>
+
+    ${escapeHTML(customer.city)}
+
+    ${customer.postcode
+      ? ", " + escapeHTML(customer.postcode)
+      : ""
+    }
+
+  `;
+
+
+  /* DELIVERY */
+
+  const deliveryText =
+    delivery.date +
+    "<br>" +
+    delivery.time;
+
+
+  document.getElementById(
+    "deliveryDetailsReceipt"
+  ).innerHTML =
+    deliveryText;
+
+
+  document.getElementById(
+    "deliverySide"
+  ).innerHTML =
+    deliveryText;
+
+
+  /* PRODUCTS */
+
+  const receiptItems =
+    document.getElementById(
+      "receiptItems"
+    );
+
+
+  receiptItems.innerHTML = "";
+
+
+  let itemCount = 0;
+
+
+  items.forEach(
+    item => {
+
+      const quantity =
+        Number(
+          item.quantity || 1
+        );
+
+      const unitPrice =
+        Number(
+          item.price || 0
+        );
+
+      const lineTotal =
+        unitPrice * quantity;
+
+
+      itemCount += quantity;
+
+
+      receiptItems.innerHTML += `
+
+        <div class="item-row">
+
+          <div class="product-cell">
+
+            <img
+              class="product-image"
+              src="${escapeHTML(
+                item.image || ""
+              )}"
+              alt="${escapeHTML(
+                item.name || "NezCap product"
+              )}"
+              onerror="
+                this.style.visibility='hidden';
+              "
+            >
+
+            <div>
+
+              <div class="product-name">
+                ${escapeHTML(
+                  item.name || "NezCap Product"
+                )}
+              </div>
+
+              <div class="product-unit">
+                NezCap product
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="item-number">
+            ${quantity}
+          </div>
+
+
+          <div class="item-price">
+            ${money(unitPrice)}
+          </div>
+
+
+          <div class="item-total">
+            ${money(lineTotal)}
+          </div>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  /* TOTALS */
+
+  document.getElementById(
+    "subtotal"
+  ).textContent =
+    money(subtotal);
+
+
+  document.getElementById(
+    "total"
+  ).textContent =
+    money(total);
+
+
+  document.getElementById(
+    "totalSide"
+  ).textContent =
+    money(total);
+
+
+  document.getElementById(
+    "itemCount"
+  ).textContent =
+    itemCount +
+    (
+      itemCount === 1
+        ? " item"
+        : " items"
+    );
+
+
+  document.getElementById(
+    "orderNumberSide"
+  ).textContent =
+    orderNumber;
+
+
+  /* MARK DEMO CONFIRMATION */
+
+  localStorage.setItem(
+    "nezcapPaymentConfirmed",
+    "true"
+  );
+
+}
+
+
+/* =====================================================
+   DOWNLOAD PNG
+   ===================================================== */
+
+async function downloadPNG(){
+
+  const receipt =
+    document.getElementById(
+      "receipt"
+    );
+
+
+  if(
+    typeof html2canvas ===
+    "undefined"
+  ){
+
+    alert(
+      "PNG download is unavailable right now. Please use Print Receipt."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const canvas =
+      await html2canvas(
+        receipt,
+        {
+          scale:2,
+          useCORS:true,
+          backgroundColor:"#ffffff"
+        }
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    const orderNumber =
+      localStorage.getItem(
+        "nezcapOrderNumber"
+      ) || "receipt";
+
+
+    link.download =
+      "NezCap-" +
+      orderNumber +
+      ".png";
+
+
+    link.href =
+      canvas.toDataURL(
+        "image/png"
+      );
+
+
+    link.click();
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Unable to create the PNG receipt. Please try again or use Print Receipt."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   DOWNLOAD PDF
+   ===================================================== */
+
+async function downloadPDF(){
+
+  const receipt =
+    document.getElementById(
+      "receipt"
+    );
+
+
+  if(
+    typeof html2canvas ===
+    "undefined" ||
+    !window.jspdf
+  ){
+
+    alert(
+      "PDF download is unavailable right now. Please use Print Receipt and choose Save as PDF."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const canvas =
+      await html2canvas(
+        receipt,
+        {
+          scale:2,
+          useCORS:true,
+          backgroundColor:"#ffffff"
+        }
+      );
+
+
+    const imageData =
+      canvas.toDataURL(
+        "image/png"
+      );
+
+
+    const {
+      jsPDF
+    } = window.jspdf;
+
+
+    const pdf =
+      new jsPDF({
+        orientation:"portrait",
+        unit:"mm",
+        format:"a4"
+      });
+
+
+    const pageWidth =
+      pdf.internal.pageSize.getWidth();
+
+
+    const pageHeight =
+      pdf.internal.pageSize.getHeight();
+
+
+    const margin = 10;
+
+
+    const availableWidth =
+      pageWidth -
+      (margin * 2);
+
+
+    const imageHeight =
+      canvas.height *
+      availableWidth /
+      canvas.width;
+
+
+    let height =
+      imageHeight;
+
+
+    if(
+      height >
+      pageHeight - (margin * 2)
+    ){
+
+      height =
+        pageHeight -
+        (margin * 2);
+
+    }
+
+
+    pdf.addImage(
+      imageData,
+      "PNG",
+      margin,
+      margin,
+      availableWidth,
+      height
+    );
+
+
+    const orderNumber =
+      localStorage.getItem(
+        "nezcapOrderNumber"
+      ) || "receipt";
+
+
+    pdf.save(
+      "NezCap-" +
+      orderNumber +
+      ".pdf"
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Unable to create the PDF receipt. Please use Print Receipt and choose Save as PDF."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   PRINT RECEIPT
+   ===================================================== */
+
+function printReceipt(){
+
+  window.print();
+
+}
+
+
+/* =====================================================
+   START
+   ===================================================== */
+
+renderConfirmation();
+
+</script>
+
+</body>
+</html>

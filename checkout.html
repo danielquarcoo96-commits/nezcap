@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Checkout | NezCap</title>
+
+<style>
+
+/* =====================================================
+   ROOT
+   ===================================================== */
+
+:root {
+
+  --navy: #071321;
+  --navy-2: #0c1b2d;
+
+  --blue: #0ea5ff;
+  --cyan: #16c8ff;
+
+  --white: #ffffff;
+
+  --text: #10233d;
+  --muted: #65758b;
+
+  --border: #e2e9f0;
+
+  --soft: #f5f9fd;
+
+  --success: #16c784;
+
+  --danger: #ff4d67;
+
+}
+
+
+/* =====================================================
+   RESET
+   ===================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+body {
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  background: #f5f8fc;
+
+  color: var(--text);
+
+  line-height: 1.5;
+
+}
+
+
+/* =====================================================
+   LINKS
+   ===================================================== */
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* =====================================================
+   NAVIGATION
+   ===================================================== */
+
+.navbar {
+
+  height: 82px;
+
+  background: var(--navy);
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 0 5%;
+
+}
+
+
+.nav-inner {
+
+  width: 100%;
+
+  max-width: 1250px;
+
+  margin: auto;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+}
+
+
+/* =====================================================
+   LOGO
+   ===================================================== */
+
+.logo {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 24px;
+
+  font-weight: 800;
+
+}
+
+
+.logo-mark {
+
+  font-size: 38px;
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  font-style: italic;
+
+  color: var(--blue);
+
+}
+
+
+.logo-text span {
+  color: var(--blue);
+}
+
+
+/* =====================================================
+   BACK TO SHOP
+   ===================================================== */
+
+.back-shop {
+
+  color:
+    rgba(255,255,255,0.75);
+
+  font-size: 14px;
+
+  transition: 0.2s ease;
+
+}
+
+
+.back-shop:hover {
+  color: var(--cyan);
+}
+
+
+/* =====================================================
+   PAGE
+   ===================================================== */
+
+.checkout-page {
+
+  width: 90%;
+
+  max-width: 1200px;
+
+  margin: auto;
+
+  padding: 65px 0 90px;
+
+}
+
+
+/* =====================================================
+   PAGE HEADER
+   ===================================================== */
+
+.page-header {
+
+  margin-bottom: 40px;
+
+}
+
+
+.eyebrow {
+
+  color: var(--blue);
+
+  text-transform: uppercase;
+
+  letter-spacing: 3px;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  margin-bottom: 10px;
+
+}
+
+
+.page-header h1 {
+
+  font-size:
+    clamp(38px,5vw,58px);
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+
+  margin-bottom: 12px;
+
+}
+
+
+.page-header p {
+
+  color: var(--muted);
+
+  font-size: 15px;
+
+}
+
+
+/* =====================================================
+   CHECKOUT GRID
+   ===================================================== */
+
+.checkout-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    1.25fr
+    0.75fr;
+
+  gap: 30px;
+
+  align-items: start;
+
+}
+
+
+/* =====================================================
+   CARD
+   ===================================================== */
+
+.checkout-card {
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 24px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 15px 45px
+    rgba(7,19,33,0.06);
+
+}
+
+
+.card-title {
+
+  font-size: 21px;
+
+  font-weight: 800;
+
+  margin-bottom: 25px;
+
+}
+
+
+/* =====================================================
+   FORM
+   ===================================================== */
+
+.form-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 18px;
+
+}
+
+
+.form-group {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+
+}
+
+
+.form-group.full {
+  grid-column: 1 / -1;
+}
+
+
+.form-group label {
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  color: var(--text);
+
+}
+
+
+.form-group input {
+
+  width: 100%;
+
+  height: 48px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 12px;
+
+  padding: 0 14px;
+
+  outline: none;
+
+  color: var(--text);
+
+  background: #fbfdff;
+
+  transition: 0.2s ease;
+
+}
+
+
+.form-group input:focus {
+
+  border-color: var(--blue);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(14,165,255,0.10);
+
+}
+
+
+/* =====================================================
+   PAYMENT METHODS
+   ===================================================== */
+
+.payment-methods {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 14px;
+
+  margin-bottom: 25px;
+
+}
+
+
+.payment-option {
+
+  position: relative;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 16px;
+
+  padding: 18px;
+
+  cursor: pointer;
+
+  background: white;
+
+  transition: 0.2s ease;
+
+}
+
+
+.payment-option:hover {
+
+  border-color:
+    rgba(14,165,255,0.5);
+
+}
+
+
+.payment-option.selected {
+
+  border:
+    2px solid
+    var(--blue);
+
+  background:
+    #f1faff;
+
+}
+
+
+.payment-option input {
+
+  position: absolute;
+
+  opacity: 0;
+
+}
+
+
+.payment-logo {
+
+  font-size: 21px;
+
+  font-weight: 900;
+
+  margin-bottom: 7px;
+
+}
+
+
+.tng-logo {
+  color: #087cff;
+}
+
+
+.card-logo {
+  color: var(--navy);
+}
+
+
+.payment-option strong {
+
+  display: block;
+
+  font-size: 14px;
+
+  margin-bottom: 3px;
+
+}
+
+
+.payment-option span {
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+}
+
+
+/* =====================================================
+   PAYMENT CONTENT
+   ===================================================== */
+
+.payment-content {
+
+  margin-top: 10px;
+
+}
+
+
+/* =====================================================
+   TNG SECTION
+   ===================================================== */
+
+.tng-box {
+
+  display: none;
+
+  border:
+    1px solid
+    #dbe9f5;
+
+  border-radius: 18px;
+
+  padding: 22px;
+
+  background:
+    #f8fcff;
+
+}
+
+
+.tng-box.active {
+  display: block;
+}
+
+
+.tng-box h4 {
+
+  font-size: 15px;
+
+  margin-bottom: 7px;
+
+}
+
+
+.tng-box p {
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+  margin-bottom: 18px;
+
+}
+
+
+.tng-qr-wrapper {
+  width: 190px;
+  min-height: 190px;
+  margin: 10px auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tng-qr-image {
+  width: 190px;
+  height: 190px;
+  object-fit: contain;
+  padding: 10px;
+  border-radius: 15px;
+  background: white;
+  box-shadow:
+    0 5px 20px
+    rgba(0,0,0,0.12);
+}
+
+.tng-placeholder {
+
+  width: 170px;
+
+  height: 170px;
+
+  margin: 10px auto 20px;
+
+  border-radius: 15px;
+
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #071321 0,
+      #071321 4px,
+      white 4px,
+      white 8px
+    );
+
+  border:
+    10px solid white;
+
+  box-shadow:
+    0 5px 20px
+    rgba(0,0,0,0.12);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+
+.tng-placeholder span {
+
+  background: white;
+
+  padding: 7px 9px;
+
+  border-radius: 6px;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  color: #087cff;
+
+}
+
+
+/* =====================================================
+   CARD PAYMENT
+   ===================================================== */
+
+.card-box {
+
+  display: none;
+
+  margin-top: 10px;
+
+}
+
+
+.card-box.active {
+  display: block;
+}
+
+
+.card-fields {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 15px;
+
+}
+
+
+.card-fields .full {
+
+  grid-column:
+    1 / -1;
+
+}
+
+
+.card-input {
+
+  height: 48px;
+
+  width: 100%;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 12px;
+
+  padding: 0 14px;
+
+  outline: none;
+
+  background: #fbfdff;
+
+}
+
+
+.card-input:focus {
+
+  border-color:
+    var(--blue);
+
+}
+
+
+.security-note {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 15px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+}
+
+
+/* =====================================================
+   PAY NOW SECTION
+   ===================================================== */
+
+.pay-now-section {
+
+  margin-top: 25px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 24px;
+
+  padding: 24px 30px 20px;
+
+  box-shadow:
+    0 15px 45px
+    rgba(7,19,33,0.06);
+
+}
+
+
+.pay-now-section .pay-button {
+
+  display: block;
+
+  width: 100%;
+
+}
+
+
+.pay-note {
+
+  text-align: center;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+  margin-top: 12px;
+
+}
+
+
+/* =====================================================
+   ORDER SUMMARY
+   ===================================================== */
+
+.summary-card {
+
+  position: sticky;
+
+  top: 25px;
+
+}
+
+
+.summary-title {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 22px;
+
+}
+
+
+.summary-title h2 {
+
+  font-size: 21px;
+
+}
+
+
+.summary-title span {
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+}
+
+
+/* =====================================================
+   ORDER ITEMS
+   ===================================================== */
+
+.order-items {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+
+  padding-bottom: 20px;
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+}
+
+
+.order-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+}
+
+
+.order-image {
+
+  width: 65px;
+
+  height: 65px;
+
+  border-radius: 12px;
+
+  object-fit: contain;
+
+  background: #f3f7fa;
+
+}
+
+
+.order-info {
+
+  flex: 1;
+
+}
+
+
+.order-info h4 {
+
+  font-size: 13px;
+
+  margin-bottom: 3px;
+
+}
+
+
+.order-info p {
+
+  font-size: 11px;
+
+  color: var(--muted);
+
+}
+
+
+.order-price {
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+}
+
+
+/* =====================================================
+   TOTALS
+   ===================================================== */
+
+.totals {
+
+  padding:
+    20px 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+}
+
+
+.total-row {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  font-size: 13px;
+
+}
+
+
+.total-row.muted {
+
+  color: var(--muted);
+
+}
+
+
+.total-row.final {
+
+  font-size: 19px;
+
+  font-weight: 800;
+
+  padding-top: 10px;
+
+  border-top:
+    1px solid
+    var(--border);
+
+}
+
+
+/* =====================================================
+   PAY BUTTON
+   ===================================================== */
+
+.pay-button {
+
+  width: 100%;
+
+  border: none;
+
+  border-radius: 30px;
+
+  padding: 16px;
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: 800;
+
+  background:
+    linear-gradient(
+      100deg,
+      #138cff,
+      #11c5ec
+    );
+
+  box-shadow:
+    0 12px 30px
+    rgba(14,165,255,0.23);
+
+  transition: 0.25s ease;
+
+}
+
+
+.pay-button:hover {
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 16px 35px
+    rgba(14,165,255,0.32);
+
+}
+
+
+/* =====================================================
+   EMPTY CART
+   ===================================================== */
+
+.empty-checkout {
+
+  text-align: center;
+
+  padding: 70px 20px;
+
+}
+
+
+.empty-checkout h2 {
+
+  margin-bottom: 10px;
+
+}
+
+
+.empty-checkout p {
+
+  color: var(--muted);
+
+  margin-bottom: 25px;
+
+}
+
+
+.shop-button {
+
+  display: inline-block;
+
+  padding: 13px 25px;
+
+  border-radius: 30px;
+
+  color: white;
+
+  font-weight: 700;
+
+  background: var(--navy);
+
+}
+
+
+/* =====================================================
+   SUCCESS MODAL
+   ===================================================== */
+
+.success-overlay {
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(4,12,22,0.65);
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  z-index: 500;
+
+  padding: 20px;
+
+}
+
+
+.success-overlay.show {
+
+  display: flex;
+
+}
+
+
+.success-box {
+
+  width: 100%;
+
+  max-width: 450px;
+
+  background: white;
+
+  border-radius: 25px;
+
+  padding: 40px;
+
+  text-align: center;
+
+  box-shadow:
+    0 30px 90px
+    rgba(0,0,0,0.25);
+
+}
+
+
+.success-icon {
+
+  width: 65px;
+
+  height: 65px;
+
+  border-radius: 50%;
+
+  display: grid;
+
+  place-items: center;
+
+  margin: 0 auto 20px;
+
+  background:
+    rgba(22,199,132,0.12);
+
+  color: var(--success);
+
+  font-size: 30px;
+
+}
+
+
+.success-box h2 {
+
+  margin-bottom: 10px;
+
+}
+
+
+.success-box p {
+
+  color: var(--muted);
+
+  font-size: 14px;
+
+  margin-bottom: 25px;
+
+}
+
+
+.success-button {
+
+  border: none;
+
+  border-radius: 30px;
+
+  padding: 13px 28px;
+
+  color: white;
+
+  font-weight: 700;
+
+  background: var(--navy);
+
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 850px) {
+
+  .checkout-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .summary-card {
+
+    position: static;
+
+    grid-row: 1;
+
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .navbar {
+
+    height: 72px;
+
+    padding: 0 20px;
+
+  }
+
+
+  .logo {
+
+    font-size: 21px;
+
+  }
+
+
+  .logo-mark {
+
+    font-size: 32px;
+
+  }
+
+
+  .checkout-page {
+
+    width:
+      calc(100% - 30px);
+
+    padding:
+      40px 0 60px;
+
+  }
+
+
+  .checkout-card {
+
+    padding: 22px;
+
+    border-radius: 20px;
+
+  }
+
+
+  .pay-now-section {
+
+    padding: 20px;
+
+    border-radius: 20px;
+
+  }
+
+
+  .form-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .form-group.full {
+
+    grid-column: auto;
+
+  }
+
+
+  .payment-methods {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .card-fields {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .card-fields .full {
+
+    grid-column: auto;
+
+  }
+
+
+  .back-shop {
+
+    font-size: 12px;
+
+  }
+
+}
+
+
+
+.form-group select {
+  width:100%;
+  height:52px;
+  padding:0 15px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#fff;
+  color:var(--text);
+  font:inherit;
+  outline:none;
+}
+
+.form-group select:focus {
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(14,165,255,.10);
+}
+
+.form-group input[readonly] {
+  background:#f7fafc;
+  color:var(--text);
+}
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+     ===================================================== -->
+
+<header class="navbar">
+
+  <div class="nav-inner">
+
+
+    <a
+      href="index.html"
+      class="logo"
+    >
+
+      <div class="logo-mark">
+        N
+      </div>
+
+      <div class="logo-text">
+        NEZ<span>CAP</span>
+      </div>
+
+    </a>
+
+
+    <a
+      href="shop.html"
+      class="back-shop"
+    >
+
+      ← Back to Shop
+
+    </a>
+
+
+  </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     CHECKOUT PAGE
+     ===================================================== -->
+
+<main class="checkout-page">
+
+
+  <div class="page-header">
+
+    <div class="eyebrow">
+      SECURE CHECKOUT
+    </div>
+
+    <h1>
+      Complete your order.
+    </h1>
+
+    <p>
+      Choose your preferred payment method and
+      complete your NezCap order.
+    </p>
+
+  </div>
+
+
+
+  <div id="checkoutContent">
+
+
+    <div class="checkout-grid">
+
+
+      <!-- =================================================
+           LEFT SIDE
+           ================================================= -->
+
+      <div>
+
+
+        <!-- CUSTOMER INFORMATION -->
+
+        <section class="checkout-card">
+
+          <h2 class="card-title">
+            Customer Information
+          </h2>
+
+
+          <div class="form-grid">
+
+
+            <div class="form-group">
+
+              <label>
+                First Name
+              </label>
+
+              <input
+                type="text"
+                id="firstName"
+                placeholder="First name"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Last Name
+              </label>
+
+              <input
+                type="text"
+                id="lastName"
+                placeholder="Last name"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Email Address
+              </label>
+
+              <input
+                type="email"
+                id="email"
+                placeholder="you@example.com"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Phone Number
+              </label>
+
+              <input
+                type="tel"
+                id="phone"
+                placeholder="+60 12 345 6789"
+              >
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label>
+                Delivery Address
+              </label>
+
+              <input
+                type="text"
+                id="address"
+                placeholder="Street address"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                City
+              </label>
+
+              <select
+                id="city"
+                onchange="updatePostcode()"
+                required
+              >
+                <option value="">Select city</option>
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Postcode
+              </label>
+
+              <input
+                type="text"
+                id="postcode"
+                placeholder="Postcode"
+                readonly
+              >
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+
+
+        <!-- PAYMENT -->
+
+        <section
+          class="checkout-card"
+          style="margin-top:25px;"
+        >
+
+          <h2 class="card-title">
+            Payment Method
+          </h2>
+
+
+          <div class="payment-methods">
+
+
+            <!-- TOUCH N GO -->
+
+            <label
+              class="payment-option selected"
+              id="tngOption"
+            >
+
+              <input
+                type="radio"
+                name="payment"
+                value="tng"
+                checked
+                onchange="selectPayment('tng')"
+              >
+
+
+              <div class="payment-logo tng-logo">
+                TNG
+              </div>
+
+              <strong>
+                Touch ’n Go
+              </strong>
+
+              <span>
+                Pay securely with Touch ’n Go
+              </span>
+
+            </label>
+
+
+
+            <!-- CARD -->
+
+            <label
+              class="payment-option"
+              id="cardOption"
+            >
+
+              <input
+                type="radio"
+                name="payment"
+                value="card"
+                onchange="selectPayment('card')"
+              >
+
+
+              <div class="payment-logo card-logo">
+                CARD
+              </div>
+
+              <strong>
+                Credit / Debit Card
+              </strong>
+
+              <span>
+                Visa, Mastercard and more
+              </span>
+
+            </label>
+
+
+          </div>
+
+
+
+          <!-- TOUCH N GO CONTENT -->
+
+          <div
+            class="tng-box active"
+            id="tngBox"
+          >
+
+            <h4>
+              Pay with Touch ’n Go
+            </h4>
+
+            <p>
+              Scan the QR code with your Touch ’n Go
+              eWallet to complete your payment.
+            </p>
+
+
+            <!--
+
+              DEMO QR AREA
+
+              Replace this area later with your
+              actual Touch ’n Go payment QR code
+              or payment gateway integration.
+
+            -->
+
+            <div class="tng-qr-wrapper">
+
+              <!--
+                TOUCH 'N GO QR CODE
+                Replace "tng-qr.png" with your actual QR
+                image when you provide it.
+              -->
+              <img id="tngQrImage"
+                src="tng-qr.png"
+                alt="Touch 'n Go payment QR code"
+                class="tng-qr-image"
+                
+              >
+
+              <div
+                id="qrFallback"
+                class="tng-placeholder"
+                style="display:none;"
+              >
+                <span>
+                  TNG QR
+                </span>
+              </div>
+            
+
+
+
+            </div>
+
+
+            <p style="text-align:center;margin-bottom:0;">
+
+              Scan the QR code above using your Touch ’n Go eWallet.
+
+            </p>
+
+          </div>
+
+
+
+          <!-- CARD CONTENT -->
+
+          <div
+            class="card-box"
+            id="cardBox"
+          >
+
+            <div class="card-fields">
+
+
+              <div class="form-group full">
+
+                <label>
+                  Card Number
+                </label>
+
+                <input
+                  class="card-input"
+                  id="cardNumber"
+                  type="text"
+                  maxlength="19"
+                  placeholder="1234 5678 9012 3456"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  Expiry Date
+                </label>
+
+                <input
+                  class="card-input"
+                  id="expiry"
+                  type="text"
+                  maxlength="5"
+                  placeholder="MM/YY"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label>
+                  CVV
+                </label>
+
+                <input
+                  class="card-input"
+                  id="cvv"
+                  type="password"
+                  maxlength="4"
+                  placeholder="•••"
+                >
+
+              </div>
+
+
+              <div class="form-group full">
+
+                <label>
+                  Name on Card
+                </label>
+
+                <input
+                  class="card-input"
+                  id="cardName"
+                  type="text"
+                  placeholder="Name as shown on card"
+                >
+
+              </div>
+
+
+            </div>
+
+
+            <div class="security-note">
+
+              🔒
+
+              <span>
+                Your payment information is securely
+                processed through the payment gateway.
+              </span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAY NOW — BELOW PAYMENT METHOD
+             ================================================= -->
+
+        <div class="pay-now-section">
+
+          <button
+            class="pay-button"
+            onclick="goToPayPage()"
+          >
+
+            Pay Now →
+
+          </button>
+
+          <p class="pay-note">
+
+            🔒 Secure checkout · Your information is used only
+            for processing this order.
+
+          </p>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =================================================
+           RIGHT SIDE — ORDER SUMMARY
+           ================================================= -->
+
+      <aside
+        class="checkout-card summary-card"
+      >
+
+
+        <div class="summary-title">
+
+          <h2>
+            Your Order
+          </h2>
+
+          <span id="itemCount">
+            0 items
+          </span>
+
+        </div>
+
+
+        <div
+          class="order-items"
+          id="orderItems"
+        ></div>
+
+
+        <div class="totals">
+
+
+          <div class="total-row muted">
+
+            <span>
+              Subtotal
+            </span>
+
+            <span id="subtotal">
+              RM0
+            </span>
+
+          </div>
+
+
+          <div class="total-row muted">
+
+            <span>
+              Delivery
+            </span>
+
+            <span>
+              Free
+            </span>
+
+          </div>
+
+
+          <div class="total-row final">
+
+            <span>
+              Total
+            </span>
+
+            <span id="total">
+              RM0
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+        <p
+          style="
+            text-align:center;
+            color:#65758b;
+            font-size:10px;
+            margin-top:13px;
+          "
+        >
+
+          Your order details will be securely passed to the payment page.
+
+        </p>
+
+
+      </aside>
+
+
+    </div>
+
+
+  </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     SUCCESS MODAL
+     ===================================================== -->
+
+<div
+  class="success-overlay"
+  id="successOverlay"
+>
+
+  <div class="success-box">
+
+
+    <div class="success-icon">
+      ✓
+    </div>
+
+
+    <h2>
+      Order Received
+    </h2>
+
+
+    <p>
+
+      Thank you for choosing NezCap.
+      Your order has been successfully submitted.
+
+    </p>
+
+
+    <button
+      class="success-button"
+      onclick="goHome()"
+    >
+
+      Back to Air →
+
+    </button>
+
+
+  </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   GET CART FROM SHOP
+   ===================================================== */
+
+let cart = [];
+
+
+try {
+
+  const savedCart =
+    localStorage.getItem("nezcapCart");
+
+  if (savedCart) {
+
+    cart = JSON.parse(savedCart);
+
+  }
+
+} catch (error) {
+
+  cart = [];
+
+}
+
+
+
+/* =====================================================
+   DISPLAY ORDER
+   ===================================================== */
+
+function renderOrder() {
+
+
+  const orderItems =
+    document.getElementById("orderItems");
+
+
+  const itemCount =
+    document.getElementById("itemCount");
+
+
+  const subtotalElement =
+    document.getElementById("subtotal");
+
+
+  const totalElement =
+    document.getElementById("total");
+
+
+  orderItems.innerHTML = "";
+
+
+  let total = 0;
+
+  let count = 0;
+
+
+  cart.forEach(item => {
+
+
+    const itemTotal =
+      item.price * item.quantity;
+
+
+    total += itemTotal;
+
+    count += item.quantity;
+
+
+    orderItems.innerHTML += `
+
+      <div class="order-item">
+
+        <img
+          class="order-image"
+          src="${item.image}"
+          alt="${item.name}"
+        >
+
+        <div class="order-info">
+
+          <h4>
+            ${item.name}
+          </h4>
+
+          <p>
+            Quantity: ${item.quantity}
+          </p>
+
+        </div>
+
+        <div class="order-price">
+
+          RM${itemTotal}
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+
+  itemCount.textContent =
+    count +
+    (count === 1 ? " item" : " items");
+
+
+  subtotalElement.textContent =
+    `RM${total}`;
+
+
+  totalElement.textContent =
+    `RM${total}`;
+
+}
+
+
+
+/* =====================================================
+   PAYMENT SELECTION
+   ===================================================== */
+
+function selectPayment(method) {
+
+
+  const tngOption =
+    document.getElementById("tngOption");
+
+
+  const cardOption =
+    document.getElementById("cardOption");
+
+
+  const tngBox =
+    document.getElementById("tngBox");
+
+
+  const cardBox =
+    document.getElementById("cardBox");
+
+
+  if (method === "tng") {
+
+
+    tngOption.classList.add("selected");
+
+    cardOption.classList.remove("selected");
+
+
+    tngBox.classList.add("active");
+
+    cardBox.classList.remove("active");
+
+
+  }
+
+
+  else {
+
+
+    cardOption.classList.add("selected");
+
+    tngOption.classList.remove("selected");
+
+
+    cardBox.classList.add("active");
+
+    tngBox.classList.remove("active");
+
+  }
+
+}
+
+
+
+/* =====================================================
+   PREPARE PAYMENT
+   =====================================================
+
+   The checkout page collects the customer's information,
+   selected products, quantities, prices and payment method.
+
+   It stores everything in "nezcapPaymentData" and sends
+   the customer to pay.html.
+
+   The actual payment-success screen will be handled by
+   pay.html later.
+   ===================================================== */
+
+
+/* =====================================================
+   MALAYSIA CITY SELECTOR
+   ===================================================== */
+
+const malaysiaCities = [
+  ["Kuala Lumpur","Kuala Lumpur","50000"],
+  ["Putrajaya","Putrajaya","62000"],
+  ["Cyberjaya","Selangor","63000"],
+  ["Shah Alam","Selangor","40000"],
+  ["Petaling Jaya","Selangor","46000"],
+  ["Subang Jaya","Selangor","47500"],
+  ["Klang","Selangor","41000"],
+  ["Kajang","Selangor","43000"],
+  ["Puchong","Selangor","47100"],
+  ["Bangi","Selangor","43650"],
+  ["Rawang","Selangor","48000"],
+  ["Ampang","Selangor","68000"],
+  ["Sepang","Selangor","43900"],
+  ["Seremban","Negeri Sembilan","70000"],
+  ["Port Dickson","Negeri Sembilan","71000"],
+  ["Nilai","Negeri Sembilan","71800"],
+  ["Malacca City","Melaka","75000"],
+  ["Johor Bahru","Johor","80000"],
+  ["Iskandar Puteri","Johor","79100"],
+  ["Pasir Gudang","Johor","81700"],
+  ["Batu Pahat","Johor","83000"],
+  ["Muar","Johor","84000"],
+  ["Kluang","Johor","86000"],
+  ["Kuantan","Pahang","25000"],
+  ["Temerloh","Pahang","28000"],
+  ["Bentong","Pahang","28700"],
+  ["Cameron Highlands","Pahang","39000"],
+  ["Ipoh","Perak","30000"],
+  ["Taiping","Perak","34000"],
+  ["Teluk Intan","Perak","36000"],
+  ["Kuala Kangsar","Perak","33000"],
+  ["George Town","Penang","10000"],
+  ["Butterworth","Penang","12000"],
+  ["Bayan Lepas","Penang","11900"],
+  ["Bukit Mertajam","Penang","14000"],
+  ["Alor Setar","Kedah","05000"],
+  ["Sungai Petani","Kedah","08000"],
+  ["Kulim","Kedah","09000"],
+  ["Langkawi","Kedah","07000"],
+  ["Kota Bharu","Kelantan","15000"],
+  ["Pasir Mas","Kelantan","17000"],
+  ["Kuala Krai","Kelantan","18000"],
+  ["Kuala Terengganu","Terengganu","20000"],
+  ["Kemaman","Terengganu","24000"],
+  ["Dungun","Terengganu","23000"],
+  ["Kangar","Perlis","01000"],
+  ["Kota Kinabalu","Sabah","88000"],
+  ["Sandakan","Sabah","90000"],
+  ["Tawau","Sabah","91000"],
+  ["Lahad Datu","Sabah","91100"],
+  ["Keningau","Sabah","89000"],
+  ["Semporna","Sabah","91300"],
+  ["Kuching","Sarawak","93000"],
+  ["Miri","Sarawak","98000"],
+  ["Sibu","Sarawak","96000"],
+  ["Bintulu","Sarawak","97000"],
+  ["Limbang","Sarawak","98700"],
+  ["Labuan","Labuan","87000"]
+];
+
+function initializeCitySelector() {
+
+  const select = document.getElementById("city");
+
+  if (!select) return;
+
+  malaysiaCities.forEach(([city,state,postcode]) => {
+
+    const option = document.createElement("option");
+
+    option.value = city;
+    option.textContent = `${city}, ${state}`;
+    option.dataset.postcode = postcode;
+
+    select.appendChild(option);
+
+  });
+
+  const savedCity =
+    localStorage.getItem("nezcapCheckoutCity");
+
+  if (savedCity) {
+
+    select.value = savedCity;
+    updatePostcode();
+
+  }
+
+}
+
+function updatePostcode() {
+
+  const select = document.getElementById("city");
+  const postcode = document.getElementById("postcode");
+
+  if (!select || !postcode) return;
+
+  const option =
+    select.options[select.selectedIndex];
+
+  postcode.value =
+    option?.dataset?.postcode || "";
+
+  if (select.value) {
+
+    localStorage.setItem(
+      "nezcapCheckoutCity",
+      select.value
+    );
+
+  }
+
+}
+
+initializeCitySelector();
+
+
+function goToPayPage() {
+
+  if (cart.length === 0) {
+
+    alert(
+      "Your cart is empty. Please return to the shop."
+    );
+
+    return;
+
+  }
+
+
+  const firstName =
+    document.getElementById("firstName").value.trim();
+
+  const lastName =
+    document.getElementById("lastName").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const phone =
+    document.getElementById("phone").value.trim();
+
+  const address =
+    document.getElementById("address").value.trim();
+
+  const city =
+    document.getElementById("city").value.trim();
+
+  const postcode =
+    document.getElementById("postcode").value.trim();
+
+
+  if (
+    !firstName ||
+    !lastName ||
+    !email ||
+    !phone ||
+    !address ||
+    !city ||
+    !postcode
+  ) {
+
+    alert(
+      "Please complete your delivery information."
+    );
+
+    return;
+
+  }
+
+
+  const selectedPayment =
+    document.querySelector(
+      'input[name="payment"]:checked'
+    );
+
+
+  if (!selectedPayment) {
+
+    alert(
+      "Please select a payment method."
+    );
+
+    return;
+
+  }
+
+
+  const paymentMethod =
+    selectedPayment.value;
+
+
+  /* =================================================
+     CARD VALIDATION
+     ================================================= */
+
+  if (paymentMethod === "card") {
+
+    const cardNumber =
+      document
+        .getElementById("cardNumber")
+        .value
+        .trim();
+
+    const expiry =
+      document
+        .getElementById("expiry")
+        .value
+        .trim();
+
+    const cvv =
+      document
+        .getElementById("cvv")
+        .value
+        .trim();
+
+    const cardName =
+      document
+        .getElementById("cardName")
+        .value
+        .trim();
+
+
+    if (
+      !cardNumber ||
+      !expiry ||
+      !cvv ||
+      !cardName
+    ) {
+
+      alert(
+        "Please complete your card details."
+      );
+
+      return;
+
+    }
+
+  }
+
+
+  /* =================================================
+     CALCULATE TOTAL
+     ================================================= */
+
+  let total = 0;
+
+
+  cart.forEach(item => {
+
+    total +=
+      Number(item.price) *
+      Number(item.quantity);
+
+  });
+
+
+  /* =================================================
+     SAVE COMPLETE PAYMENT DATA
+     ================================================= */
+
+  const paymentData = {
+
+    customer: {
+
+      firstName: firstName,
+
+      lastName: lastName,
+
+      email: email,
+
+      phone: phone,
+
+      address: address,
+
+      city: city,
+
+      postcode: postcode
+
+    },
+
+    paymentMethod: paymentMethod,
+
+    items: cart,
+
+    subtotal: total,
+
+    delivery: 0,
+
+    total: total,
+
+    createdAt:
+      new Date().toISOString()
+
+  };
+
+
+  localStorage.setItem(
+    "nezcapPaymentData",
+    JSON.stringify(paymentData)
+  );
+
+
+  /* =================================================
+     GO TO FUTURE PAYMENT PAGE
+     ================================================= */
+
+  window.location.href =
+    "pay.html";
+
+}
+
+
+/* =====================================================
+   BACKWARD COMPATIBILITY
+   =====================================================
+
+   If any old button or code still calls
+   completePayment(), it will now use the new flow.
+   ===================================================== */
+
+function completePayment() {
+
+  goToPayPage();
+
+}
+
+
+/* =====================================================
+   GO HOME
+   ===================================================== */
+
+function goHome() {
+
+  window.location.href =
+    "index.html";
+
+}
+
+
+
+/* =====================================================
+   INITIALIZE
+   ===================================================== */
+
+renderOrder();
+
+
+
+</script>
+
+</body>
+
+</html>

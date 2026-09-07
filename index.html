@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NezCap — personal air protection and air-quality insights." />
+  <title>NezCap — Breathe with Confidence</title>
+
+  <style>
+    :root{
+      --navy:#07111f;
+      --navy-2:#0b1a2d;
+      --blue:#12a8ff;
+      --blue-2:#268cff;
+      --cyan:#00c7ff;
+      --green:#35e68b;
+      --white:#ffffff;
+      --muted:#aab8c9;
+      --line:rgba(255,255,255,.13);
+      --glass:rgba(8,21,36,.70);
+      --shadow:0 24px 70px rgba(0,0,0,.28);
+      --radius:24px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:#eef5fb;
+      color:#0b1a2d;
+      line-height:1.5;
+    }
+    button,a{font:inherit}
+    a{text-decoration:none;color:inherit}
+
+    /* NAV */
+    .navbar{
+      position:absolute;
+      z-index:20;
+      top:0;left:0;right:0;
+      height:84px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 4.5vw;
+      color:white;
+    }
+    .brand{
+      display:flex;align-items:center;gap:11px;
+      font-weight:800;font-size:24px;letter-spacing:-.8px;
+    }
+    .brand-mark{
+      width:48px;height:35px;
+      color:var(--blue);
+      display:grid;place-items:center;
+      font-size:42px;font-weight:900;
+      line-height:1;
+      transform:skew(-12deg);
+    }
+    .brand span{font-size:24px}
+    .brand span b{color:var(--blue)}
+    .nav-links{
+      display:flex;gap:38px;align-items:center;
+      margin-left:auto;margin-right:38px;
+    }
+    .nav-links a{
+      color:#e8eef6;font-size:15px;
+      padding:29px 0 24px;
+      border-bottom:2px solid transparent;
+      transition:.2s ease;
+    }
+    .nav-links a:hover,.nav-links a.active{
+      color:var(--blue);
+      border-bottom-color:var(--blue);
+    }
+    .nav-actions{display:flex;gap:14px;align-items:center}
+    .location-select{
+      border:1px solid var(--line);
+      background:rgba(12,19,30,.78);
+      color:#fff;
+      border-radius:30px;
+      padding:13px 18px;
+      min-width:150px;
+      outline:none;
+      cursor:pointer;
+      backdrop-filter:blur(12px);
+    }
+    .primary-btn{
+      border:0;
+      color:#fff;
+      background:linear-gradient(100deg,var(--blue-2),var(--cyan));
+      border-radius:30px;
+      padding:14px 24px;
+      font-weight:750;
+      cursor:pointer;
+      box-shadow:0 10px 28px rgba(18,168,255,.25);
+      transition:.2s ease;
+    }
+    .primary-btn:hover{transform:translateY(-2px)}
+
+    /* HERO */
+    .hero{
+      min-height:680px;
+      position:relative;
+      overflow:hidden;
+      background:#07111f;
+      color:#fff;
+    }
+    .hero-bg{
+      position:absolute;inset:0;
+      background-image:
+        linear-gradient(90deg,rgba(3,11,20,.10) 0%,rgba(3,11,20,.08) 42%,rgba(3,11,20,.82) 72%,rgba(3,11,20,.97) 100%),
+        linear-gradient(0deg,rgba(3,11,20,.62) 0%,transparent 55%),
+        url("hero-model.jpg");
+      background-size:cover;
+      background-position:left center;
+      transform:scale(1.01);
+    }
+    /* ATMOSPHERIC AIR ANIMATION */
+    .hero-bg{
+      animation: heroBreath 20s ease-in-out infinite alternate;
+      will-change:transform;
+    }
+
+    @keyframes heroBreath{
+      0%{transform:scale(1.01) translate3d(0,0,0)}
+      50%{transform:scale(1.025) translate3d(-.35%,.15%,0)}
+      100%{transform:scale(1.015) translate3d(.3%,-.15%,0)}
+    }
+
+    .air-animation{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      overflow:hidden;
+    }
+
+    .cloud{
+      position:absolute;
+      width:42vw;
+      height:16vw;
+      min-width:360px;
+      min-height:130px;
+      border-radius:50%;
+      background:
+        radial-gradient(ellipse at center,
+          rgba(210,230,248,.10) 0%,
+          rgba(170,205,232,.055) 35%,
+          rgba(130,175,210,0) 72%);
+      filter:blur(24px);
+      opacity:.55;
+      mix-blend-mode:screen;
+      will-change:transform;
+    }
+
+    .cloud-1{
+      left:-12%;
+      top:9%;
+      animation:cloudDrift1 26s ease-in-out infinite alternate;
+    }
+
+    .cloud-2{
+      left:24%;
+      top:2%;
+      width:48vw;
+      opacity:.34;
+      animation:cloudDrift2 34s ease-in-out infinite alternate;
+    }
+
+    .cloud-3{
+      left:44%;
+      top:25%;
+      width:38vw;
+      opacity:.22;
+      animation:cloudDrift3 30s ease-in-out infinite alternate;
+    }
+
+    @keyframes cloudDrift1{
+      from{transform:translate3d(-3%,0,0) scale(1)}
+      to{transform:translate3d(18%,4%,0) scale(1.08)}
+    }
+
+    @keyframes cloudDrift2{
+      from{transform:translate3d(0,2%,0) scale(.95)}
+      to{transform:translate3d(-14%,8%,0) scale(1.08)}
+    }
+
+    @keyframes cloudDrift3{
+      from{transform:translate3d(2%,0,0)}
+      to{transform:translate3d(-12%,-5%,0)}
+    }
+
+    #airParticles{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      opacity:.75;
+    }
+
+    .air-shimmer{
+      position:absolute;
+      inset:-20%;
+      background:
+        radial-gradient(ellipse at 35% 30%, rgba(255,255,255,.045), transparent 34%),
+        radial-gradient(ellipse at 68% 18%, rgba(53,184,255,.035), transparent 30%);
+      animation:shimmerMove 24s ease-in-out infinite alternate;
+    }
+
+    @keyframes shimmerMove{
+      from{transform:translate3d(-2%,1%,0)}
+      to{transform:translate3d(3%,-2%,0)}
+    }
+
+
+    /* VISIBLE WEATHER ANIMATION — RAIN + SNOW */
+    .weather-rain,
+    .weather-snow{
+      position:absolute;
+      inset:0;
+      overflow:hidden;
+      pointer-events:none;
+      z-index:2;
+    }
+
+    .weather-rain{
+      opacity:.72;
+    }
+
+    .rain-drop{
+      position:absolute;
+      top:-15vh;
+      width:1.5px;
+      height:48px;
+      border-radius:999px;
+      background:linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(180,225,255,.88)
+      );
+      transform:rotate(14deg);
+      animation:rainFall linear infinite;
+      filter:drop-shadow(0 0 3px rgba(120,205,255,.35));
+    }
+
+    @keyframes rainFall{
+      0%{
+        transform:translate3d(0,-12vh,0) rotate(14deg);
+        opacity:0;
+      }
+      8%{opacity:.8}
+      88%{opacity:.72}
+      100%{
+        transform:translate3d(-11vw,115vh,0) rotate(14deg);
+        opacity:0;
+      }
+    }
+
+    .weather-snow{
+      opacity:.9;
+    }
+
+    .snow-flake{
+      position:absolute;
+      top:-8vh;
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:rgba(255,255,255,.92);
+      box-shadow:
+        0 0 5px rgba(255,255,255,.8),
+        0 0 11px rgba(190,225,255,.42);
+      animation:snowFall linear infinite;
+    }
+
+    @keyframes snowFall{
+      0%{
+        transform:translate3d(0,-10vh,0) rotate(0deg);
+        opacity:0;
+      }
+      10%{opacity:.9}
+      50%{
+        transform:translate3d(4vw,50vh,0) rotate(180deg);
+      }
+      100%{
+        transform:translate3d(-3vw,115vh,0) rotate(360deg);
+        opacity:.15;
+      }
+    }
+
+    /* A soft cold-weather veil makes the precipitation easier to see
+       without hiding the original hero image. */
+    .weather-vignette{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(
+          ellipse at 50% 0%,
+          rgba(190,225,255,.07),
+          transparent 52%
+        );
+      pointer-events:none;
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .hero-bg,.cloud,.air-shimmer,
+      .rain-drop,.snow-flake{animation:none}
+      #airParticles,.weather-rain,.weather-snow{display:none}
+    }
+
+    .hero-content{
+      position:relative;z-index:2;
+      max-width:1450px;
+      min-height:680px;
+      margin:auto;
+      padding:145px 4.5vw 90px;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:40px;
+      align-items:center;
+    }
+    .eyebrow{
+      font-size:12px;letter-spacing:5px;color:#cbd7e5;
+      margin-bottom:16px;
+    }
+    .hero-copy h1{
+      font-size:clamp(48px,5.4vw,82px);
+      line-height:.98;
+      letter-spacing:-4px;
+      max-width:650px;
+    }
+    .hero-copy h1 span{color:var(--blue)}
+    .hero-copy p{
+      color:#d7e2ef;font-size:19px;margin-top:22px;
+    }
+    .hero-buttons{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap}
+    .ghost-btn{
+      padding:14px 24px;border-radius:30px;
+      border:1px solid rgba(255,255,255,.55);
+      color:#fff;background:rgba(255,255,255,.04);
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .ghost-btn:hover{background:rgba(255,255,255,.12)}
+
+    /* AIR CARD */
+    .air-card{
+      width:min(100%,560px);
+      justify-self:end;
+      border:1px solid rgba(157,203,238,.28);
+      background:linear-gradient(145deg,rgba(21,42,64,.76),rgba(4,16,29,.73));
+      border-radius:22px;
+      padding:22px;
+      backdrop-filter:blur(18px);
+      box-shadow:var(--shadow);
+    }
+    .air-top{
+      display:flex;justify-content:space-between;gap:20px;align-items:flex-start;
+      color:#fff;
+    }
+    .place{font-size:17px;font-weight:750}
+    .updated{font-size:12px;color:#b9c8d8;white-space:nowrap}
+    .air-main{
+      display:grid;grid-template-columns:170px 1fr;
+      gap:25px;align-items:center;margin:20px 0;
+    }
+    .gauge{
+      width:155px;height:155px;border-radius:50%;
+      display:grid;place-items:center;
+      position:relative;
+      background:conic-gradient(var(--green) calc(var(--aqi)*1%), rgba(255,255,255,.14) 0);
+    }
+    .gauge::before{
+      content:"";position:absolute;inset:13px;
+      background:#10253a;border-radius:50%;
+    }
+    .gauge-content{position:relative;text-align:center}
+    .aqi-number{font-size:48px;font-weight:850;line-height:1}
+    .aqi-label{font-size:13px;color:#c6d2df;margin-top:5px}
+    .status{font-size:29px;font-weight:800;color:var(--green)}
+    .status-copy{color:#d4dfeb;font-size:14px;margin-top:5px;max-width:260px}
+    .metrics{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+    }
+    .metric{
+      padding:12px 10px;border-radius:12px;
+      background:rgba(137,171,204,.15);
+      border:1px solid rgba(255,255,255,.05);
+    }
+    .metric small{display:block;color:#cad7e5;font-size:11px}
+    .metric strong{font-size:16px;margin-top:3px;display:block}
+    .risk{
+      margin-top:12px;padding:13px 15px;border-radius:13px;
+      background:rgba(52,230,139,.10);
+      border:1px solid rgba(52,230,139,.16);
+      display:flex;gap:12px;align-items:center;
+    }
+    .risk-icon{
+      width:38px;height:38px;border-radius:10px;
+      display:grid;place-items:center;background:#126b48;font-size:20px;
+    }
+    .risk strong{color:var(--green);font-size:14px}
+    .risk p{font-size:12px;color:#cbd8e5}
+    .details-btn{
+      width:100%;margin-top:14px;
+      border:0;background:#fff;color:#12263d;
+      border-radius:28px;padding:13px;font-weight:800;cursor:pointer;
+    }
+
+    /* FEATURE STRIP */
+    .feature-strip{
+      position:relative;z-index:5;
+      margin:-1px auto 0;
+      max-width:1500px;
+      background:#fff;
+      border-radius:28px 28px 0 0;
+      display:grid;grid-template-columns:repeat(4,1fr);
+      box-shadow:0 -10px 35px rgba(0,0,0,.06);
+    }
+    .feature{
+      display:flex;align-items:center;gap:15px;
+      padding:27px 28px;
+      border-right:1px solid #e3ebf2;
+    }
+    .feature:last-child{border-right:0}
+    .feature-icon{
+      width:48px;height:48px;border-radius:50%;
+      display:grid;place-items:center;
+      background:#e5f5ff;color:#008ff0;font-size:22px;flex:none;
+    }
+    .feature strong{font-size:13px}
+    .feature p{font-size:12px;color:#68788b;margin-top:2px}
+
+    /* PRODUCT SECTION */
+    .product-section{
+      background:linear-gradient(135deg,#f4f9fd,#e9f2fa);
+      padding:88px 6vw;
+      overflow:hidden;
+    }
+    .section-inner{
+      max-width:1320px;margin:auto;
+      display:grid;grid-template-columns:.95fr 1.05fr;
+      gap:50px;align-items:center;
+    }
+    .section-kicker{font-size:11px;letter-spacing:4px;color:#159ef2}
+    .product-section h2{
+      margin-top:10px;
+      font-size:clamp(38px,4.2vw,62px);
+      line-height:1.02;letter-spacing:-3px;
+      color:#0a1b31;
+    }
+    .product-section h2 span{color:#119fe9}
+    .section-copy{font-size:16px;color:#4f6175;max-width:570px;margin-top:18px}
+    .benefits{
+      display:flex;gap:28px;flex-wrap:wrap;margin-top:30px;
+    }
+    .benefit{display:flex;gap:10px;align-items:center;color:#24384e;font-size:13px}
+    .benefit-icon{
+      width:38px;height:38px;border-radius:50%;
+      display:grid;place-items:center;
+      background:#dff2ff;color:#129fe9;
+    }
+    .product-image-wrap{
+      position:relative;
+      min-height:390px;
+      display:grid;place-items:center;
+    }
+    .product-image{
+      width:100%;max-width:700px;
+      mix-blend-mode:multiply;
+      filter:drop-shadow(0 30px 35px rgba(24,48,72,.16));
+    }
+
+    /* HEALTH SECTION */
+    .health-section{
+      min-height:420px;
+      padding:85px 6vw;
+      color:#fff;
+      background:
+        linear-gradient(90deg,rgba(6,35,62,.88),rgba(6,35,62,.42)),
+        url("hero-model.jpg");
+      background-size:cover;
+      background-position:center;
+    }
+    .health-inner{max-width:1320px;margin:auto}
+    .health-section h2{
+      font-size:clamp(40px,4.2vw,62px);
+      line-height:1;letter-spacing:-3px;max-width:520px;
+    }
+    .health-section h2 span{color:#24adff}
+    .health-section > .health-inner > p{
+      margin-top:16px;color:#dbe8f5;max-width:470px
+    }
+    .health-cards{
+      margin-top:35px;
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:18px;max-width:850px;margin-left:auto;
+    }
+    .health-card{
+      padding:25px;border:1px solid rgba(255,255,255,.25);
+      background:rgba(255,255,255,.12);
+      border-radius:18px;backdrop-filter:blur(10px);
+    }
+    .health-card .icon{font-size:24px;color:#16a9ff}
+    .health-card strong{display:block;margin-top:12px}
+    .health-card p{font-size:13px;color:#d4e1ee;margin-top:5px}
+
+    /* FOOTER */
+    footer{
+      background:#07111f;color:#c5d1df;
+      padding:60px 5vw 25px;
+    }
+    .footer-grid{
+      max-width:1320px;margin:auto;
+      display:grid;grid-template-columns:1.4fr .8fr .9fr 1.5fr;
+      gap:50px;
+    }
+    .footer-brand p{font-size:13px;max-width:250px;margin-top:12px;line-height:1.8}
+    footer h4{color:#fff;font-size:14px;margin-bottom:18px}
+    .footer-links{display:grid;gap:10px;font-size:13px}
+    .footer-links a:hover{color:#16a9ff}
+    .partners{display:flex;gap:12px;flex-wrap:wrap}
+    .partner{
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:10px;padding:10px 13px;
+      font-size:12px;color:#e4edf7;
+      background:rgba(255,255,255,.03);
+    }
+    .socials{display:flex;gap:10px;margin-top:22px}
+    .social{
+      width:34px;height:34px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.18);
+      display:grid;place-items:center;font-size:12px;
+    }
+    .footer-bottom{
+      max-width:1320px;margin:40px auto 0;
+      padding-top:20px;border-top:1px solid rgba(255,255,255,.12);
+      display:flex;justify-content:space-between;gap:20px;
+      font-size:11px;color:#8fa0b3;
+    }
+
+    /* MODAL */
+    .modal{
+      position:fixed;inset:0;z-index:100;
+      display:none;place-items:center;
+      background:rgba(2,9,17,.72);backdrop-filter:blur(8px);
+      padding:20px;
+    }
+    .modal.open{display:grid}
+    .modal-box{
+      width:min(560px,100%);
+      background:#fff;border-radius:24px;padding:28px;
+      box-shadow:0 30px 90px rgba(0,0,0,.35);
+    }
+    .modal-box h3{font-size:28px;color:#0b1a2d}
+    .modal-box p{margin-top:8px;color:#607086}
+    .close{
+      float:right;border:0;background:#eef3f8;
+      width:35px;height:35px;border-radius:50%;cursor:pointer;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width:1050px){
+      .nav-links{gap:18px;margin-right:18px}
+      .nav-links a{font-size:13px}
+      .nav-actions .location-select{min-width:125px}
+      .hero-content{grid-template-columns:1fr;padding-top:125px}
+      .air-card{justify-self:start}
+      .feature-strip{grid-template-columns:repeat(2,1fr)}
+      .feature:nth-child(2){border-right:0}
+      .feature:nth-child(-n+2){border-bottom:1px solid #e3ebf2}
+      .section-inner{grid-template-columns:1fr}
+      .product-image-wrap{min-height:300px}
+      .health-cards{margin-left:0}
+      .footer-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:720px){
+      .navbar{height:72px;padding:0 20px}
+      .nav-links{display:none}
+      .brand span{font-size:20px}
+      .brand-mark{font-size:34px;width:40px}
+      .nav-actions .location-select{display:none}
+      .primary-btn{padding:11px 17px;font-size:13px}
+      .hero{min-height:auto}
+      .hero-bg{background-position:24% center}
+      .hero-content{padding:120px 20px 60px;min-height:auto}
+      .hero-copy h1{font-size:51px;letter-spacing:-2.5px}
+      .hero-copy p{font-size:16px}
+      .air-card{padding:17px}
+      .air-main{grid-template-columns:1fr;justify-items:center;text-align:center}
+      .status-copy{margin:auto}
+      .metrics{grid-template-columns:repeat(2,1fr)}
+      .feature-strip{grid-template-columns:1fr}
+      .feature{border-right:0;border-bottom:1px solid #e3ebf2!important}
+      .feature:last-child{border-bottom:0!important}
+      .product-section,.health-section{padding:60px 20px}
+      .product-section h2,.health-section h2{letter-spacing:-2px}
+      .benefits{gap:14px}
+      .health-cards{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr;gap:32px}
+      .footer-bottom{flex-direction:column}
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar">
+    <a class="brand" href="#air" aria-label="NezCap home">
+      <div class="brand-mark">N</div>
+      <span>NEZ<b>CAP</b></span>
+    </a>
+
+     <nav class="nav-links">
+  <a class="active" href="index.html#air">Air</a>
+  <a href="insight.html">Insights</a>
+  <a href="shop.html">Shop</a>
+  <a href="about.html">About</a>
+</nav>
+
+    <div class="nav-actions">
+      <select id="citySelect" class="location-select" aria-label="Select city"></select>
+      <button class="primary-btn" onclick="window.location.href='shop.html'">Get NezCap</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO / AIR -->
+    <section class="hero" id="air">
+      <div class="hero-bg"></div>
+
+      <!-- Subtle moving clouds + airflow particles. The background image remains unchanged. -->
+      <div class="air-animation" aria-hidden="true">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="air-shimmer"></div>
+
+        <!-- Visible falling rain -->
+        <div class="weather-rain" id="weatherRain" aria-hidden="true"></div>
+
+        <!-- Visible falling snow -->
+        <div class="weather-snow" id="weatherSnow" aria-hidden="true"></div>
+
+        <div class="weather-vignette"></div>
+        <canvas id="airParticles"></canvas>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-copy">
+          <div class="eyebrow">PERSONAL AIR PROTECTION</div>
+          <h1>Breathe<br>with <span>Confidence.</span></h1>
+          <p>Check the air. Take action. Live better.</p>
+
+          <div class="hero-buttons">
+            <button class="primary-btn" onclick="window.location.href='insight.html'">
+              Explore Air Insights →
+            </button>
+            <button class="ghost-btn" onclick="window.location.href='shop.html'">
+              Get NezCap
+            </button>
+          </div>
+        </div>
+
+        <aside class="air-card" aria-live="polite">
+          <div class="air-top">
+            <div class="place" id="placeName">📍 Cyberjaya, Malaysia</div>
+            <div class="updated" id="updated">Demo data • Updated just now</div>
+          </div>
+
+          <div class="air-main">
+            <div class="gauge" id="gauge">
+              <div class="gauge-content">
+                <div class="aqi-number" id="aqi">42</div>
+                <div class="aqi-label">AQI</div>
+              </div>
+            </div>
+
+            <div>
+              <div class="status" id="status">Good</div>
+              <p class="status-copy" id="statusCopy">
+                Air quality is satisfactory and suitable for most outdoor activities.
+              </p>
+            </div>
+          </div>
+
+          <div class="metrics">
+            <div class="metric"><small>PM2.5</small><strong id="pm25">22 µg/m³</strong></div>
+            <div class="metric"><small>PM10</small><strong id="pm10">35 µg/m³</strong></div>
+            <div class="metric"><small>Temp</small><strong id="temp">28 °C</strong></div>
+            <div class="metric"><small>Humidity</small><strong id="humidity">65%</strong></div>
+          </div>
+
+          <div class="risk">
+            <div class="risk-icon">🍃</div>
+            <div>
+              <strong id="riskTitle">Low Exposure Risk</strong>
+              <p id="riskText">Current air quality poses minimal risk to most people.</p>
+            </div>
+          </div>
+
+          <button class="details-btn" onclick="showDetails()">View Details →</button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- FEATURE STRIP -->
+    <section class="feature-strip" aria-label="NezCap features">
+      <div class="feature">
+        <div class="feature-icon">≋</div>
+        <div><strong>Check Air Quality</strong><p>Real-time air data for your location</p></div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">♧</div>
+        <div><strong>Get Recommendations</strong><p>Know when to use NezCap</p></div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🛒</div>
+        <div><strong>Order NezCap</strong><p>Discreet, reusable and portable</p></div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">♢</div>
+        <div><strong>Breathe Better</strong><p>Take control of your air</p></div>
+      </div>
+    </section>
+
+    <!-- PRODUCT -->
+    <section class="product-section" id="shop">
+      <div class="section-inner">
+        <div>
+          <div class="section-kicker">OUR SOLUTION</div>
+          <h2>Small Cap. <span>Big Difference.</span></h2>
+          <p class="section-copy">
+            NezCap is a discreet, comfortable and reusable personal air filtration
+            device designed for everyday life.
+          </p>
+
+          <div class="benefits">
+            <div class="benefit"><div class="benefit-icon">♢</div>Filters harmful particles</div>
+            <div class="benefit"><div class="benefit-icon">⌁</div>Lightweight & comfortable</div>
+            <div class="benefit"><div class="benefit-icon">◌</div>Reusable & eco-friendly</div>
+          </div>
+
+          <div style="margin-top:30px">
+            <button class="primary-btn" onclick="window.location.href='shop.html'">Shop NezCap →</button>
+          </div>
+        </div>
+
+        <div class="product-image-wrap">
+          <!-- EXACT USER-SUPPLIED PRODUCT IMAGE. Replace this file only if the product image changes. -->
+          <img class="product-image" src="nezcap-product.png" alt="NezCap personal air filtration product" />
+        </div>
+      </div>
+    </section>
+
+    <!-- HEALTH / INSIGHTS -->
+    <section class="health-section" id="insights">
+      <div class="health-inner">
+        <div class="section-kicker">CLEANER AIR. HEALTHIER TOMORROWS.</div>
+        <h2>Healthier Choices<br><span>Brighter Days.</span></h2>
+        <p>Be aware. Be prepared. Be protected.</p>
+
+        <div class="health-cards">
+          <article class="health-card">
+            <div class="icon">🏃</div>
+            <strong>Plan Your Day</strong>
+            <p>Check air quality before heading out.</p>
+          </article>
+          <article class="health-card">
+            <div class="icon">♡</div>
+            <strong>Protect What Matters</strong>
+            <p>Reduce exposure when air quality becomes a concern.</p>
+          </article>
+          <article class="health-card">
+            <div class="icon">♧</div>
+            <strong>Cleaner Communities</strong>
+            <p>Build awareness around everyday air exposure.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" style="display:none"></section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#air">
+          <div class="brand-mark">N</div>
+          <span>NEZ<b>CAP</b></span>
+        </a>
+        <p>Cap the Pollution. Breathe Better.<br>A cleaner, healthier tomorrow starts with awareness today.</p>
+        <div class="socials">
+          <a class="social" href="#" aria-label="Facebook">f</a>
+          <a class="social" href="#" aria-label="Instagram">ig</a>
+          <a class="social" href="#" aria-label="TikTok">tt</a>
+          <a class="social" href="#" aria-label="YouTube">yt</a>
+          <a class="social" href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Quick Links</h4>
+        <div class="footer-links">
+          <a href="#air">Air</a>
+          <a href="insight.html">Insights</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html">About</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Support</h4>
+        <div class="footer-links">
+          <a href="#">Contact Us</a>
+          <a href="#">FAQ</a>
+          <a href="#">Shipping & Returns</a>
+          <a href="#">User Guide</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Our Partners</h4>
+        <div class="partners">
+          <div class="partner">MMU</div>
+          <div class="partner">MaGIC</div>
+          <div class="partner">UOC</div>
+          <div class="partner">Ministry of Health Malaysia</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 NezCap. All rights reserved.</div>
+      <div>Privacy Policy &nbsp; | &nbsp; Terms of Service &nbsp; | &nbsp; Cookie Policy</div>
+    </div>
+  </footer>
+
+  <!-- DETAILS MODAL -->
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <button class="close" onclick="closeModal()">×</button>
+      <h3 id="modalTitle">Air Quality Details</h3>
+      <p id="modalText"></p>
+    </div>
+  </div>
+
+  <script>
+    /*
+      IMPORTANT:
+      The city values below are DEMO / MVP values for interface testing.
+      They are NOT live AQI readings.
+
+      When you are ready for real data, replace this object with data returned
+      by your chosen air-quality API/backend. The UI will continue to work.
+    */
+
+    const cityData = {
+      "Cyberjaya": {
+        aqi:42, status:"Good", pm25:22, pm10:35, temp:28, humidity:65,
+        risk:"Low Exposure Risk",
+        riskText:"Current air quality poses minimal risk to most people.",
+        copy:"Air quality is satisfactory and suitable for most outdoor activities."
+      },
+      "Putrajaya": {
+        aqi:58, status:"Moderate", pm25:31, pm10:48, temp:29, humidity:67,
+        risk:"Moderate Exposure Risk",
+        riskText:"Sensitive individuals may want to reduce prolonged outdoor exposure.",
+        copy:"Air quality is acceptable, but some people may experience mild effects."
+      },
+      "Kuala Lumpur": {
+        aqi:76, status:"Moderate", pm25:39, pm10:59, temp:30, humidity:70,
+        risk:"Moderate Exposure Risk",
+        riskText:"Consider reducing prolonged outdoor activity if you are sensitive to pollution.",
+        copy:"Air quality is acceptable, but sensitive groups should take some care."
+      },
+      "Shah Alam": {
+        aqi:49, status:"Good", pm25:25, pm10:39, temp:29, humidity:68,
+        risk:"Low Exposure Risk",
+        riskText:"Current conditions present low exposure risk for most people.",
+        copy:"Air quality is satisfactory for most people."
+      },
+      "Petaling Jaya": {
+        aqi:64, status:"Moderate", pm25:34, pm10:51, temp:30, humidity:71,
+        risk:"Moderate Exposure Risk",
+        riskText:"Sensitive individuals should consider shorter outdoor exposure.",
+        copy:"Air quality is acceptable, with increased caution recommended for sensitive groups."
+      },
+      "Johor Bahru": {
+        aqi:46, status:"Good", pm25:24, pm10:37, temp:30, humidity:74,
+        risk:"Low Exposure Risk",
+        riskText:"Current conditions present low exposure risk for most people.",
+        copy:"Air quality is satisfactory and suitable for most outdoor activities."
+      },
+      "Penang": {
+        aqi:52, status:"Moderate", pm25:27, pm10:42, temp:29, humidity:76,
+        risk:"Moderate Exposure Risk",
+        riskText:"Sensitive individuals may want to limit prolonged outdoor exposure.",
+        copy:"Air quality is acceptable, but sensitive groups should take some care."
+      },
+      "Ipoh": {
+        aqi:37, status:"Good", pm25:19, pm10:31, temp:28, humidity:73,
+        risk:"Low Exposure Risk",
+        riskText:"Current conditions present low exposure risk for most people.",
+        copy:"Air quality is satisfactory for most outdoor activities."
+      },
+      "Malacca City": {
+        aqi:88, status:"Unhealthy for Sensitive Groups", pm25:45, pm10:67, temp:30, humidity:75,
+        risk:"Elevated Exposure Risk",
+        riskText:"Sensitive groups should reduce prolonged or heavy outdoor activity.",
+        copy:"Sensitive individuals may experience health effects and should take precautions."
+      },
+      "Kota Kinabalu": {
+        aqi:96, status:"Unhealthy for Sensitive Groups", pm25:49, pm10:73, temp:29, humidity:79,
+        risk:"Elevated Exposure Risk",
+        riskText:"Sensitive groups should consider reducing prolonged outdoor exposure.",
+        copy:"Sensitive individuals may experience health effects and should take precautions."
+      }
+    };
+
+    const select = document.getElementById("citySelect");
+
+    Object.keys(cityData).forEach(city => {
+      const option = document.createElement("option");
+      option.value = city;
+      option.textContent = city;
+      select.appendChild(option);
+    });
+
+    select.value = "Cyberjaya";
+    select.addEventListener("change", () => updateAir(select.value));
+
+    function updateAir(city){
+      const d = cityData[city];
+      document.getElementById("placeName").textContent = "📍 " + city + ", Malaysia";
+      document.getElementById("aqi").textContent = d.aqi;
+      document.getElementById("status").textContent = d.status;
+      document.getElementById("statusCopy").textContent = d.copy;
+      document.getElementById("pm25").textContent = d.pm25 + " µg/m³";
+      document.getElementById("pm10").textContent = d.pm10 + " µg/m³";
+      document.getElementById("temp").textContent = d.temp + " °C";
+      document.getElementById("humidity").textContent = d.humidity + "%";
+      document.getElementById("riskTitle").textContent = d.risk;
+      document.getElementById("riskText").textContent = d.riskText;
+      document.getElementById("updated").textContent = "Demo data • Updated just now";
+
+
+       
+      const percentage = Math.min(d.aqi, 150) / 1.5;
+      document.getElementById("gauge").style.setProperty("--aqi", percentage);
+
+      // Make the status/risk visual respond to severity.
+      const statusEl = document.getElementById("status");
+      const gauge = document.getElementById("gauge");
+      if(d.aqi <= 50){
+        statusEl.style.color = "#35e68b";
+        gauge.style.background = `conic-gradient(#35e68b ${percentage}%, rgba(255,255,255,.14) 0)`;
+      } else if(d.aqi <= 100){
+        statusEl.style.color = "#ffd166";
+        gauge.style.background = `conic-gradient(#ffd166 ${percentage}%, rgba(255,255,255,.14) 0)`;
+      } else {
+        statusEl.style.color = "#ff7b72";
+        gauge.style.background = `conic-gradient(#ff7b72 ${percentage}%, rgba(255,255,255,.14) 0)`;
+      }
+    }
+      
+
+
+
+    function showDetails(){
+      const city = select.value;
+      const d = cityData[city];
+      document.getElementById("modalTitle").textContent = city + " Air Quality";
+      document.getElementById("modalText").textContent =
+        `AQI ${d.aqi}. ${d.status}. PM2.5 is ${d.pm25} µg/m³ and PM10 is ${d.pm10} µg/m³. ${d.riskText}`;
+      document.getElementById("modal").classList.add("open");
+    }
+
+    function showShop(){
+      window.location.href = "shop.html";
+    }
+
+    function closeModal(){
+      document.getElementById("modal").classList.remove("open");
+    }
+
+    document.getElementById("modal").addEventListener("click", e => {
+      if(e.target.id === "modal") closeModal();
+    });
+
+    updateAir("Cyberjaya");
+
+
+    /* =====================================================
+       SUBTLE AIR / PARTICLE MOTION
+       ===================================================== */
+
+    const particleCanvas =
+      document.getElementById("airParticles");
+
+    const particleContext =
+      particleCanvas.getContext("2d");
+
+    let airParticles = [];
+    let particleWidth = 0;
+    let particleHeight = 0;
+    let particleAnimationFrame;
+
+
+    function resizeParticleCanvas(){
+
+      const hero =
+        document.querySelector(".hero");
+
+      const ratio =
+        Math.min(window.devicePixelRatio || 1, 2);
+
+      particleWidth =
+        hero.clientWidth;
+
+      particleHeight =
+        hero.clientHeight;
+
+      particleCanvas.width =
+        particleWidth * ratio;
+
+      particleCanvas.height =
+        particleHeight * ratio;
+
+      particleCanvas.style.width =
+        particleWidth + "px";
+
+      particleCanvas.style.height =
+        particleHeight + "px";
+
+      particleContext.setTransform(
+        ratio,0,0,ratio,0,0
+      );
+
+      createAirParticles();
+      createWeatherParticles();
+
+    }
+
+
+    function createAirParticles(){
+
+      const count =
+        window.innerWidth < 720 ? 26 : 48;
+
+      airParticles =
+        Array.from(
+          {length:count},
+          () => {
+
+            return {
+              x:Math.random() * particleWidth,
+              y:Math.random() * particleHeight,
+              size:Math.random() * 1.8 + .45,
+              speed:Math.random() * .22 + .08,
+              drift:(Math.random() - .5) * .12,
+              opacity:Math.random() * .30 + .08,
+              phase:Math.random() * Math.PI * 2
+            };
+
+          }
+        );
+
+    }
+
+
+    function animateAirParticles(time){
+
+      particleContext.clearRect(
+        0,
+        0,
+        particleWidth,
+        particleHeight
+      );
+
+      airParticles.forEach(
+        particle => {
+
+          particle.x +=
+            particle.speed;
+
+          particle.y +=
+            particle.drift +
+            Math.sin(
+              time * .00055 +
+              particle.phase
+            ) * .025;
+
+          if(
+            particle.x >
+            particleWidth + 20
+          ){
+
+            particle.x = -20;
+
+            particle.y =
+              Math.random() *
+              particleHeight;
+
+          }
+
+          if(
+            particle.y >
+            particleHeight + 20
+          ){
+
+            particle.y = -20;
+
+          }
+
+          if(
+            particle.y < -20
+          ){
+
+            particle.y =
+              particleHeight + 20;
+
+          }
+
+          const pulse =
+            .72 +
+            Math.sin(
+              time * .001 +
+              particle.phase
+            ) * .28;
+
+          particleContext.beginPath();
+
+          particleContext.arc(
+            particle.x,
+            particle.y,
+            particle.size,
+            0,
+            Math.PI * 2
+          );
+
+          particleContext.fillStyle =
+            `rgba(214,238,255,${particle.opacity * pulse})`;
+
+          particleContext.fill();
+
+        }
+      );
+
+      particleAnimationFrame =
+        requestAnimationFrame(
+          animateAirParticles
+        );
+
+    }
+
+
+
+    /* =====================================================
+       VISIBLE RAIN + SNOW
+       ===================================================== */
+
+    const rainLayer = document.getElementById("weatherRain");
+    const snowLayer = document.getElementById("weatherSnow");
+
+    function createWeatherParticles(){
+
+      if(!rainLayer || !snowLayer) return;
+
+      rainLayer.innerHTML = "";
+      snowLayer.innerHTML = "";
+
+      const rainCount =
+        window.innerWidth < 720 ? 35 : 65;
+
+      const snowCount =
+        window.innerWidth < 720 ? 16 : 30;
+
+      for(let i = 0; i < rainCount; i++){
+
+        const drop = document.createElement("span");
+        drop.className = "rain-drop";
+
+        const size = Math.random();
+
+        drop.style.left = (Math.random() * 112 - 6) + "%";
+        drop.style.height = (28 + size * 34) + "px";
+        drop.style.width = (1 + size * .8) + "px";
+        drop.style.animationDuration = (1.4 + Math.random() * 1.0) + "s";
+        drop.style.animationDelay = (-Math.random() * 2.2) + "s";
+        drop.style.opacity = (0.28 + Math.random() * 0.5).toFixed(2);
+
+        rainLayer.appendChild(drop);
+      }
+
+      for(let i = 0; i < snowCount; i++){
+
+        const flake = document.createElement("span");
+        flake.className = "snow-flake";
+
+        const size = 3 + Math.random() * 6;
+
+        flake.style.left = (Math.random() * 108 - 4) + "%";
+        flake.style.width = size + "px";
+        flake.style.height = size + "px";
+        flake.style.animationDuration = (7 + Math.random() * 6) + "s";
+        flake.style.animationDelay = (-Math.random() * 8) + "s";
+        flake.style.opacity = (0.35 + Math.random() * 0.55).toFixed(2);
+
+        snowLayer.appendChild(flake);
+      }
+    }
+
+    function startAirAnimation(){
+
+      if(
+        window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches
+      ){
+
+        return;
+
+      }
+
+      resizeParticleCanvas();
+
+      cancelAnimationFrame(
+        particleAnimationFrame
+      );
+
+      particleAnimationFrame =
+        requestAnimationFrame(
+          animateAirParticles
+        );
+
+    }
+
+
+    window.addEventListener(
+      "resize",
+      resizeParticleCanvas
+    );
+
+    startAirAnimation();
+
+  </script>
+</body>
+</html> 
